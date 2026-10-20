@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing a Biography Quiz</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Poppins:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#123a63; --blue:#2563eb; --pale:#eaf4ff; --green:#16803b; --red:#c93535; --gray:#f3f5f7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Poppins, Cairo, sans-serif; color:#17324d; }
+    button { font:inherit; }
+    button:focus-visible, [tabindex]:focus-visible { outline:3px solid #f59e0b; outline-offset:3px; }
+    .app-shell { width:100%; min-height:calc(100 * min(var(--vh, 1vh), 1vh)); }
+    .quiz-header { background-color:#eaf4ff; padding:14px 24px; display:grid; grid-template-columns:1fr minmax(220px, 2.4fr) 1fr; align-items:center; gap:14px; border-bottom:1px solid #cddff3; }
+    .header-teacher-img, .header-logo-img { height:64px; width:auto; max-width:none; object-fit:contain; }
+    .header-logo-img { justify-self:end; }
+    .header-title { text-align:center; line-height:1.2; }
+    .title-line1 { font-family:'Poppins',sans-serif; font-size:26px; font-weight:800; color:#1e3a5f; }
+    .title-line2 { font-family:'Poppins',sans-serif; font-size:18px; font-weight:400; color:#2563eb; }
+    .title-line3 { font-family:'Poppins',sans-serif; font-size:14px; font-weight:400; color:#64748b; }
+    .info-bar { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding:10px 24px; background:#fff; border-bottom:1px solid #dce4ec; color:#38536d; font-size:12px; font-weight:700; letter-spacing:.04em; }
+    .info-bar span:nth-child(2){text-align:center}.info-bar span:last-child{text-align:right}
+    .quiz-main { width:100%; max-width:1080px; margin:0 auto; padding:26px 20px 34px; }
+    .question-panel { background:#fff; border:1px solid #dfe7ef; border-radius:18px; overflow:hidden; box-shadow:0 12px 30px rgba(18,58,99,.10); }
+    .instruction { background:#123a63; padding:19px 24px; color:#fff; font-size:17px; font-weight:800; letter-spacing:.025em; text-align:center; }
+    .question-content { padding:26px; }
+    .task { font-size:17px; line-height:1.7; font-weight:600; color:#1e3a5f; margin:0 0 20px; }
+    .choices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .choice { width:100%; text-align:left; border:2px solid #d9e2ec; background:#fff; color:#183b5b; border-radius:13px; padding:16px 17px; min-height:70px; line-height:1.55; cursor:pointer; transition:.18s ease; font-size:14px; }
+    .choice:hover:not(:disabled) { border-color:#2563eb; transform:translateY(-2px); box-shadow:0 8px 18px rgba(37,99,235,.13); }
+    .choice:disabled { cursor:default; }
+    .choice.correct { border-color:#16803b; background:#eaf8ef; color:#12652f; }
+    .choice.wrong { border-color:#c93535; background:#fff0f0; color:#9f2525; }
+    .paragraph-choices { grid-template-columns:1fr; max-width:900px; margin:auto; }
+    .paragraph-choices .choice { padding:21px 23px; line-height:1.8; font-size:15px; }
+    .fact-card { background:#f3f5f7; border:1px solid #dce3e9; border-radius:14px; padding:18px 22px; margin:0 0 20px; color:#28445f; }
+    .fact-card strong { color:#123a63; display:block; margin-bottom:8px; }.fact-card ul{margin:0;padding-left:20px;line-height:1.7}
+    .feedback { margin-top:21px; border-left:5px solid #2563eb; background:#f3f8ff; padding:14px 16px; border-radius:8px; display:none; }
+    .feedback.show { display:block; }.feedback.good{border-color:#16803b;background:#eaf8ef}.feedback.bad{border-color:#c93535;background:#fff2f2}
+    .feedback strong { display:block; margin-bottom:4px; }
+    .timeline-hint { text-align:center; color:#64748b; margin:-4px 0 19px; font-size:13px; font-weight:600; }
+    .timeline { position:relative; max-width:800px; margin:0 auto; padding:2px 0; }
+    .timeline:before { content:""; position:absolute; top:19px; bottom:19px; left:18px; width:3px; background:#b6cee8; }
+    .timeline-item { position:relative; display:grid; grid-template-columns:38px 1fr auto; gap:12px; align-items:center; margin:12px 0; }
+    .timeline-node { position:relative; z-index:1; width:18px; height:18px; border-radius:50%; background:#2563eb; border:4px solid #eaf4ff; margin-left:9px; box-shadow:0 0 0 2px #2563eb; }
+    .event-card { border:2px solid #bfd0e1; border-radius:12px; padding:15px; background:#fff; color:#1e3a5f; cursor:grab; line-height:1.55; user-select:none; touch-action:none; }
+    .event-card.dragging { opacity:.48; }.timeline-item.correct .event-card{border-color:#16803b;background:#eaf8ef}.timeline-item.correct .timeline-node{background:#16803b;box-shadow:0 0 0 2px #16803b}.timeline-item.wrong .event-card{border-color:#c93535;background:#fff0f0}.timeline-item.wrong .timeline-node{background:#c93535;box-shadow:0 0 0 2px #c93535}
+    .move-buttons { display:flex; flex-direction:column; gap:6px; }.icon-button { width:36px;height:34px;border:1px solid #aac1d7;background:#fff;color:#123a63;border-radius:8px;cursor:pointer;display:grid;place-items:center }.icon-button:disabled{opacity:.42;cursor:not-allowed}
+    .check-row{text-align:center;margin-top:21px}.primary-btn,.nav-btn,.result-btn { border:0; border-radius:10px; font-weight:700; cursor:pointer; padding:12px 18px; transition:.18s ease; }.primary-btn{background:#2563eb;color:#fff}.primary-btn:hover{background:#174db5}.nav-btn{background:#123a63;color:#fff;min-width:128px}.nav-btn:disabled{opacity:.38;cursor:not-allowed}.nav-btn:not(:disabled):hover{transform:translateY(-1px);background:#0b2948}
+    .correct-order { margin-top:18px; padding:16px; background:#f0f8f3; border-radius:12px; border:1px solid #b6ddc2; line-height:1.7; }
+    .nav-row { margin-top:22px; display:flex; align-items:center; justify-content:space-between; gap:16px; }.counter{font-size:14px;font-weight:800;color:#35536f}
+    .stats-row { margin-top:14px; padding:12px 16px; background:#edf4fa; border-radius:11px; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px 21px; color:#24445f; font-size:13px; font-weight:700; }.stat-correct{color:#16803b}.stat-wrong{color:#c93535}
+    .result-page { display:none; }.result-page.show{display:block}.quiz-view.hide{display:none}.result-card{background:#fff;border-radius:18px;padding:30px;border:1px solid #dfe7ef;box-shadow:0 12px 30px rgba(18,58,99,.1);text-align:center}.score-badge{width:176px;height:176px;border-radius:50%;background:#123a63;color:#fff;display:grid;place-items:center;margin:23px auto;font-size:28px;font-weight:800;border:9px solid #c9e0f7}.remark{font-size:22px;font-weight:800;color:#2563eb;min-height:36px}.summary-grid{max-width:820px;margin:23px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.summary-item{background:#f3f5f7;padding:12px;border-radius:10px;font-size:13px}.summary-item strong{display:block;font-size:17px;color:#123a63;margin-top:3px}.breakdown{text-align:left;max-width:660px;margin:22px auto;background:#f8fafc;padding:16px 20px;border-radius:12px}.breakdown h3{margin:0 0 9px;color:#123a63}.breakdown p{margin:7px 0}.result-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}.result-btn{background:#123a63;color:#fff}.result-btn.secondary{background:#eaf4ff;color:#123a63;border:1px solid #b9d4ef}
+    .review-page{display:none}.review-page.show{display:block}.review-section{background:#fff;border:1px solid #dfe7ef;border-radius:15px;padding:20px;margin-bottom:18px}.review-section h2{font-size:18px;color:#123a63;margin:0 0 14px}.review-question{border-top:1px solid #e3eaf0;padding:15px 0}.review-question:first-of-type{border-top:0}.review-question h3{font-size:14px;margin:0 0 7px;color:#123a63}.review-question p{font-size:13px;line-height:1.65;margin:5px 0}.answer-good{color:#16803b}.answer-bad{color:#c93535}.review-back{margin-bottom:17px}
+    #confetti { position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20 }.confetto{position:absolute;width:9px;height:15px;animation:fall 3.5s linear forwards}@keyframes fall{to{transform:translate(var(--drift),110vh) rotate(720deg);opacity:0}}
+    @media (min-width:600px){.header-teacher-img,.header-logo-img{height:80px}} @media (min-width:1024px){.header-teacher-img,.header-logo-img{height:96px}}
+    @media(max-width:640px){.header-teacher-img,.header-logo-img{height:45px}.quiz-header{padding:8px 12px;grid-template-columns:auto 1fr auto;gap:7px}.title-line1{font-size:16px}.title-line2{font-size:11px}.title-line3{font-size:10px}.info-bar{padding:9px 12px;font-size:9px;gap:5px}.quiz-main{padding:16px 11px}.instruction{padding:15px 13px;font-size:14px}.question-content{padding:18px 14px}.task{font-size:15px}.choices{grid-template-columns:1fr;gap:10px}.choice{font-size:13px;min-height:0;padding:14px}.paragraph-choices .choice{padding:17px;font-size:13px;line-height:1.7}.timeline-item{grid-template-columns:29px 1fr auto;gap:7px}.timeline:before{left:13px}.timeline-node{margin-left:4px}.event-card{padding:12px;font-size:13px}.move-buttons{gap:4px}.icon-button{width:32px;height:31px}.nav-btn{min-width:105px;padding:11px 12px}.stats-row{justify-content:flex-start;gap:7px 14px;font-size:11px}.summary-grid{grid-template-columns:1fr 1fr}.result-card{padding:21px 14px}.score-badge{width:145px;height:145px;font-size:23px}.fact-card{padding:14px;font-size:13px}}
+    @media print {.quiz-header,.info-bar,.quiz-view,.result-actions,.review-back{display:none!important}.result-page{display:block!important}.result-card{box-shadow:none;border:0}.app-shell{background:#fff!important}}
+  </style>
+  
+  
+ <script>(function(){var ok=true;try{window.localStorage.getItem("__t")}catch(e){ok=false}
+if(!ok){var m={};try{Object.defineProperty(window,"localStorage",{configurable:true,value:{
+getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},
+setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}}}})}catch(e2){}}})();</script></head>
+ <body class="app-shell">
+  <header class="quiz-header"><img class="header-teacher-img" loading="lazy" src="teacher.png" alt="Teacher Soufiane">
+   <div class="header-title">
+    <div class="title-line1">English2BAC Quizzes</div>
+    <div class="title-line2">Learn • Practice • Succeed</div>
+    <div class="title-line3">with Teacher.Soufiane</div>
+   </div><img class="header-logo-img" loading="lazy" src="logo.png" alt="Level-UP 2BAC">
+  </header>
+  <aside class="info-bar" aria-label="Quiz information"><span class="">UNIT: 2</span> <span class="">WRITING A BIOGRAPHY</span> <span class="">BIOGRAPHY WRITING - QUIZ</span>
+  </aside>
+  <main class="quiz-main">
+   <section id="quiz-view" class="quiz-view" aria-live="polite">
+    <article class="question-panel">
+     <div class="canva-banner instruction" id="instruction-box"></div>
+     <div class="question-content">
+      <div id="task-area"></div>
+      <div id="answer-area"></div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+     </div>
+    </article>
+    <nav class="nav-row" aria-label="Question navigation"><button id="previous-button" class="nav-btn" type="button">◀ Previous</button> <span id="question-counter" class="counter" aria-live="polite"></span> <button id="next-button" class="nav-btn" type="button">Next ▶</button>
+    </nav>
+    <aside class="stats-row" aria-label="Live quiz statistics"><span class="stat-correct">✅ Correct: <span id="correct-count">0</span></span> <span class="stat-wrong">❌ Wrong: <span id="wrong-count">0</span></span> <span>Remaining: <span id="remaining-count">20</span></span> <span>Score: <span id="score-count">0.00 /20</span></span> <span>Timer <span id="timer-count">00:00</span></span>
+    </aside>
+   </section>
+   <section id="result-page" class="result-page" aria-live="polite">
+    <article class="result-card">
+     <p id="result-kicker"></p>
+     <h1 id="result-title"></h1>
+     <p id="result-lesson"></p>
+     <div id="final-score" class="score-badge"></div>
+     <div id="final-remark" class="remark"></div>
+     <div class="summary-grid" id="summary-grid"></div>
+     <div class="breakdown">
+      <h3>Section Breakdown</h3>
+      <div id="section-breakdown"></div>
+     </div>
+     <div class="result-actions"><button id="review-button" class="result-btn" type="button">Review My Answers</button> <button id="restart-button" class="result-btn" type="button">Restart Quiz</button> <button id="print-button" class="result-btn secondary" type="button">Print Results</button> <button id="save-button" class="result-btn secondary" type="button">Save Results</button>
+     </div>
+    </article>
+   </section>
+   <section id="review-page" class="review-page"><button id="back-results-button" class="result-btn review-back" type="button">Back to Results</button>
+    <div id="review-content"></div>
+   </section>
+  </main>
+  <div id="confetti"></div>
+  
+  <script>
+    const quizConfig = {
+      unit:"2", title:"WRITING A BIOGRAPHY", lesson:"BIOGRAPHY WRITING - QUIZ",
+      randomizeQuestions:false, randomizeChoices:true, timerEnabled:true, timerMode:"countup",
+      showConfetti:true, enableSounds:true, totalPoints:20
+    };
+
+    const questions = [
+      ["Biography Basics","CHOOSE THE CORRECT DEFINITION OF A BIOGRAPHY.","What is a biography?",["A text about a person's life written by another person.","A text about a person's future plans written by themselves.","A text describing a fictional story and its characters.","A text explaining how to complete a particular activity."],0,"A biography is an account of someone's life written by another person."],
+      ["Biography Basics","CHOOSE THE BEST OPENING SENTENCE FOR A BIOGRAPHY.","Choose the best opening sentence for a biography.",["Nelson Mandela was a South African leader who fought against apartheid.","Nelson Mandela is going to become a famous political leader.","Nelson Mandela enjoys reading books in his free time.","Nelson Mandela will travel to many countries next year."],0,"A biography describes a person's life using the past tense, and this sentence introduces who he was and what he is known for."],
+      ["Biography Basics","CHOOSE THE INFORMATION NORMALLY INCLUDED IN A BIOGRAPHY.","Which information is normally included in a biography?",["Date and place of birth, education, career, and achievements.","A recipe, a shopping list, and a person's favourite restaurant.","Instructions for using a computer and repairing a car.","A fictional story, imaginary characters, and magical events."],0,"Biographies focus on real, verifiable life events such as birth, education, career, and achievements."],
+      ["Biography Basics","CHOOSE THE BEST TITLE FOR THE BIOGRAPHY.","Choose the best title for a biography about a Moroccan scientist who became internationally recognized for her research.",["The Life and Achievements of a Moroccan Scientist","How to Become a Successful Scientist","The Most Interesting Scientific Discoveries","Science and Technology in the Modern World"],0,"This title accurately reflects that the text is a biography about a specific person's life and achievements."],
+      ["Biography Basics","CHOOSE THE SENTENCE THAT IS LEAST RELEVANT.","Which sentence contains information that is least relevant in a short biography?",["She was born in Fez in 1985.","She studied biology at university.","She began her scientific career in 2008.","She usually drinks tea in the afternoon."],3,"A daily habit like drinking tea is a trivial personal detail, not a significant biographical fact."],
+      ["Organizing Biographical Information","CHOOSE THE SENTENCE THAT CORRECTLY PRESENTS BIRTH INFORMATION.","Which sentence correctly presents a person's birth information?",["He was born in Rabat in 1990.","He born in Rabat on 1990.","He has born in Rabat at 1990.","He is born in Rabat from 1990."],0,"The correct structure is 'was born' followed by 'in' before a year."],
+      ["Organizing Biographical Information","CHOOSE THE MOST LOGICAL ORDER FOR A BIOGRAPHY.","Which order is the most logical for a biography?",["Birth → Education → Career → Major achievements","Career → Birth → Achievements → Education","Achievements → Career → Birth → Education","Education → Achievements → Birth → Career"],0,"A biography normally follows chronological order, starting with birth and moving through the person's life."],
+      ["Organizing Biographical Information","CHOOSE THE CORRECT TIME EXPRESSION.","She was born ______ 1998.",["in","on","at","from"],0,"'In' is used with years: 'born in 1998'."],
+      ["Organizing Biographical Information","CHOOSE THE BEST SENTENCE TO DESCRIBE AN ACHIEVEMENT.","Choose the best sentence to describe an important achievement.",["In 2015, she won an international award for her research.","In 2015, she was usually going to the library.","In 2015, she likes reading about scientific discoveries.","In 2015, she will receive an international award."],0,"Past achievements are described using the past simple tense, and 'won an award' is a clear, specific accomplishment."],
+      ["Organizing Biographical Information","CHOOSE THE SENTENCE THAT LOGICALLY FOLLOWS.","Choose the sentence that logically follows this one: “After graduating from university, he moved to Casablanca to begin his career.”",["He started working for a local organization.","He was born in Casablanca many years earlier.","He decided to attend primary school.","He had not yet started his education."],0,"This sentence continues the chronological sequence forward, right after he moved to begin his career."],
+      ["The Language of Biography","CHOOSE THE CORRECT FORM OF THE VERB.","Fatima Mernissi ______ several influential books on Moroccan society.",["wrote","writes","writing","has write"],0,"Past simple ('wrote') is used to describe a completed action in a person's life story."],
+      ["The Language of Biography","CHOOSE THE CORRECT TENSE.","By the time he started his first job, he ______ his university studies.",["had completed","completes","has complete","was complete"],0,"Past perfect ('had completed') is used for an action completed before another past action."],
+      ["The Language of Biography","CHOOSE THE CORRECT PASSIVE STRUCTURE.","The famous scientist ______ an international award in 2020.",["was given","gave","is giving","has give"],0,"The scientist received the award, so the passive form 'was given' is correct."],
+      ["The Language of Biography","CHOOSE THE BEST CONNECTOR.","He graduated from university in 2005. ______, he moved abroad to continue his studies.",["Afterwards","However","Although","Because"],0,"'Afterwards' correctly links two sequential events in time."],
+      ["The Language of Biography","CHOOSE THE MOST APPROPRIATE SENTENCE COMBINATION.","Choose the sentence combination that is most appropriate for a biography.",["He graduated in 2004. Then, he began working as a teacher.","He graduated in 2004, but then he was born in 1980.","He graduated in 2004 because he was born in 1980.","He graduated in 2004, although he started primary school later."],0,"This is the only option with a logical, chronological sequence of biographical events."],
+      {type:"timeline",category:"Building a Biography",question:"ARRANGE THE EVENTS IN THE MOST LOGICAL CHRONOLOGICAL ORDER.",hint:"Birth → Education → Career → Achievement",sentences:{A:"She started working as a journalist.",B:"She was born in Tangier in 1987.",C:"She studied journalism at university.",D:"She later became the editor of a national newspaper."},correct:["B","C","A","D"],explanation:"The logical timeline is: born (B) → studied journalism (C) → started working as a journalist (A) → later became editor (D)."},
+      ["Building a Biography","IDENTIFY THE IRRELEVANT SENTENCE.","Read the four sentences and identify the irrelevant one: 1) Omar was born in Marrakech in 1992. 2) He studied engineering at university. 3) He began working for an international company after graduation. 4) His favourite football team has millions of supporters.",["Sentence 1","Sentence 2","Sentence 3","Sentence 4"],3,"Sentence 4 is about his football preferences, which is unrelated to his education and career."],
+      ["Building a Biography","CHOOSE THE BEST TRANSITION.","She graduated from university in 2006 and started her first job soon afterwards. ______, she became the manager of the company in 2015.",["Nine years later","The following morning","Before she was born","At the same time as her childhood"],0,"This transition correctly marks the passage of time between 2006 and 2015."],
+      ["Building a Biography","CHOOSE THE BEST CONCLUDING SENTENCE.","Ibn Battuta was born in Tangier in 1304. In 1325, he began his famous journey to Mecca. He travelled through many parts of Africa, Asia, and Europe. During his travels, he visited numerous cities and met people from different cultures. His experiences were later recorded in the famous work known as the Rihla. ...",["His remarkable journeys made him one of the most famous travellers in history.","Tangier is a beautiful city in northern Morocco.","Many people today enjoy travelling to different countries.","Travelling can sometimes be difficult and expensive."],0,"This sentence sums up the significance of Ibn Battuta's life and travels."],
+      ["Build the Biography — Final Challenge","CHOOSE THE PARAGRAPH THAT PRESENTS THE INFORMATION MOST EFFECTIVELY.","Read the information about Nawal El Moutawakel and choose the paragraph that presents it most effectively as a short biography.",["Nawal El Moutawakel was born in Casablanca in 1962. She became interested in athletics at a young age and developed a successful career in sport. In 1984, she won the 400-metre hurdles at the Olympic Games, becoming the first Moroccan and African woman to win an Olympic gold medal. Later, she became involved in sports administration.","Nawal El Moutawakel was born in Casablanca in 1962. Later, she became involved in sports administration before she developed an interest in athletics. She won the Olympic Games in 1984 and was interested in athletics at a young age.","Nawal El Moutawakel is a Moroccan athlete. She will win the 400-metre hurdles at the Olympic Games in 1984. She was born after becoming involved in sports administration and later became interested in athletics.","Nawal El Moutawakel was born in Casablanca in 1962. She became involved in sports administration before she became interested in athletics. Her Olympic victory happened after she retired from sport, and she later began her athletic career."],0,"This paragraph presents the facts in correct chronological order using correct past tenses throughout, unlike the other options."]
+    ];
+
+    const sections = [
+      ["Section 1 — Biography Basics",0,5],["Section 2 — Organizing Biographical Information",5,10],
+      ["Section 3 — The Language of Biography",10,15],["Section 4 — Building a Biography",15,19],
+      ["Section 5 — Build the Biography, Final Challenge",19,20]
+    ];
+    let current=0, answers=[], timelineOrder=[], elapsed=0, timerId=null, attemptStart=0;
+    const $=id=>document.getElementById(id);
+    const good=["Excellent!","Great Job!","Perfect!","Keep Going!"], bad=["Almost!","Review this rule.","Keep learning!","You'll get the next one!"];
+
+    /* Self-contained count-up timer module. */
+    const timer={
+      start(){if(!timerId) timerId=setInterval(()=>{elapsed++;updateStats()},1000)},
+      pause(){clearInterval(timerId);timerId=null},
+      reset(){this.pause();elapsed=0;updateStats()},
+      format(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+    };
+
+    function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+    function forceScramble(ids, correct){let a=shuffle(ids);if(a.join("")===correct.join("")) [a[0],a[1]]=[a[1],a[0]];return a}
+    function qData(i){return questions[i]}
+    function isTimeline(q){return q.type==="timeline"}
+    function isCorrect(index){return answers[index]&&answers[index].correct}
+    function score(){return answers.filter(a=>a&&a.correct).length}
+    function playSound(type){
+      if(!quizConfig.enableSounds || !window.AudioContext) return;
+      const c=new AudioContext(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);
+      const map={correct:[660,.12],wrong:[180,.18],move:[420,.06],complete:[740,.22]};
+      o.frequency.value=map[type][0];g.gain.setValueAtTime(.055,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+map[type][1]);o.start();o.stop(c.currentTime+map[type][1]);
+    }
+    function updateStats(){
+      const correct=score(), answered=answers.filter(Boolean).length;
+      $("correct-count").textContent=correct;$("wrong-count").textContent=answered-correct;$("remaining-count").textContent=20-answered;
+      $("score-count").textContent=correct.toFixed(2)+" /20";$("timer-count").textContent=timer.format(elapsed);
+    }
+    function feedback(correct, explanation){
+      const box=$("feedback");box.className="feedback show "+(correct?"good":"bad");
+      box.innerHTML="<strong>"+(correct?good[Math.floor(Math.random()*good.length)]:bad[Math.floor(Math.random()*bad.length)])+"</strong><span>"+explanation+"</span>";
+    }
+
+    function renderQuestion(){
+      const q=qData(current), answered=answers[current];
+      $("instruction-box").textContent=isTimeline(q)?q.question:q[1];$("question-counter").textContent=(current+1)+" / 20";
+      $("previous-button").disabled=current===0;$("next-button").disabled=!answered;
+      $("next-button").textContent=current===19&&answered?"View Results":"Next ▶";
+      $("feedback").className="feedback";$("feedback").innerHTML="";
+      if(isTimeline(q)) renderTimeline(q,answered); else renderSingle(q,answered);
+      if(answered) feedback(answered.correct,q.explanation);
+      updateStats();
+    }
+
+    /* Type A: selection locks immediately and exposes explanation. */
+    function renderSingle(q, saved){
+      $("task-area").innerHTML=(current===19?'<div class="fact-card"><strong>Key information</strong><ul><li>Born in Casablanca in 1962</li><li>Became interested in athletics at a young age</li><li>Won the 400-metre hurdles at the 1984 Olympic Games</li><li>First Moroccan and African woman to win Olympic gold</li><li>Later involved in sports administration</li></ul></div>':"")+"<p class='task'>"+q[2]+"</p>";
+      const items=saved?saved.choices:shuffle(q[3].map((text,index)=>({text,index})));
+      if(!saved) q._choices=items;
+      const display=saved?saved.choices:q._choices;
+      const area=$("answer-area");area.className="choices "+(current===19?"paragraph-choices":"");area.innerHTML="";
+      display.forEach((item,pos)=>{
+        const b=document.createElement("button");b.type="button";b.className="choice";b.textContent=item.text;b.dataset.choice=item.index;
+        if(saved){b.disabled=true;if(item.index===q[4])b.classList.add("correct");if(!saved.correct&&item.index===saved.selected)b.classList.add("wrong")}
+        else b.addEventListener("click",()=>selectChoice(item.index,display));
+        area.appendChild(b);
+      });
+    }
+    function selectChoice(selected, display){
+      if(answers[current])return;const q=qData(current),correct=selected===q[4];
+      answers[current]={correct,selected,choices:display};playSound(correct?"correct":"wrong");renderQuestion();
+    }
+
+    /* Q16 uses one order array for drag, touch, controls, and keyboard. */
+    function renderTimeline(q,saved){
+      if(!saved && !timelineOrder.length) timelineOrder=forceScramble(Object.keys(q.sentences),q.correct);
+      if(saved) timelineOrder=[...saved.order];
+      $("task-area").innerHTML="<p class='timeline-hint'>"+q.hint+"</p>";
+      const area=$("answer-area");area.className="";area.innerHTML="<div id='timeline' class='timeline' aria-label='Reorder biography timeline'></div><div class='check-row'><button id='check-order' class='primary-btn' type='button'>Check Order</button></div>";
+      const timeline=$("timeline");
+      timelineOrder.forEach((id,index)=>{
+        const item=document.createElement("div");item.className="timeline-item";item.draggable=!saved;item.dataset.id=id;item.tabIndex=saved?-1:0;
+        if(saved)item.classList.add(saved.correct||q.correct[index]===id?"correct":"wrong");
+        item.innerHTML="<span class='timeline-node'></span><div class='event-card'><strong>"+id+". </strong>"+q.sentences[id]+"</div><div class='move-buttons'><button class='icon-button up' aria-label='Move event earlier' "+(saved||index===0?"disabled":"")+">▲</button><button class='icon-button down' aria-label='Move event later' "+(saved||index===3?"disabled":"")+">▼</button></div>";
+        if(!saved) attachTimelineHandlers(item,index);
+        timeline.appendChild(item);
+      });
+      $("check-order").disabled=!!saved;
+      $("check-order").addEventListener("click",checkTimeline);
+      if(saved&&!saved.correct){
+        const correctText=q.correct.map(id=>"<div><strong>"+id+".</strong> "+q.sentences[id]+"</div>").join("");
+        area.insertAdjacentHTML("beforeend","<div class='correct-order'><strong>Correct Order</strong>"+correctText+"</div>");
+      }
+    }
+    function moveTimeline(index,direction){
+      const destination=index+direction;if(destination<0||destination>=timelineOrder.length)return;
+      [timelineOrder[index],timelineOrder[destination]]=[timelineOrder[destination],timelineOrder[index]];playSound("move");renderTimeline(qData(current),null);
+    }
+    function moveTimelineById(id,direction){
+      const index=timelineOrder.indexOf(id);if(index<0)return;moveTimeline(index,direction);
+    }
+    function attachTimelineHandlers(item){
+      const cardId=item.dataset.id;
+      item.querySelector(".up").addEventListener("click",e=>{e.stopPropagation();moveTimelineById(cardId,-1)});
+      item.querySelector(".down").addEventListener("click",e=>{e.stopPropagation();moveTimelineById(cardId,1)});
+      item.addEventListener("keydown",e=>{
+        if(e.key==="ArrowUp"){e.preventDefault();moveTimelineById(cardId,-1)}
+        if(e.key==="ArrowDown"){e.preventDefault();moveTimelineById(cardId,1)}
+        if(e.key==="Enter"){e.preventDefault();checkTimeline()}
+      });
+      item.addEventListener("dragstart",()=>item.classList.add("dragging"));
+      item.addEventListener("dragend",()=>item.classList.remove("dragging"));
+      item.addEventListener("dragover",e=>e.preventDefault());
+      item.addEventListener("drop",e=>{
+        e.preventDefault();
+        const source=document.querySelector(".timeline-item.dragging");
+        if(!source||source===item)return;
+        const from=timelineOrder.indexOf(source.dataset.id),to=timelineOrder.indexOf(cardId);
+        if(from<0||to<0)return;
+        timelineOrder.splice(to,0,timelineOrder.splice(from,1)[0]);playSound("move");renderTimeline(qData(current),null);
+      });
+      let startY=0;
+      item.addEventListener("pointerdown",e=>{if(e.target.closest("button"))return;startY=e.clientY;item.setPointerCapture(e.pointerId)});
+      item.addEventListener("pointerup",e=>{if(e.target.closest("button"))return;const delta=e.clientY-startY;if(Math.abs(delta)>26)moveTimelineById(cardId,delta<0?-1:1)});
+    }
+    function checkTimeline(){
+      if(answers[current])return;const q=qData(current),correct=timelineOrder.every((id,index)=>id===q.correct[index]);
+      answers[current]={correct,order:[...timelineOrder]};playSound(correct?"correct":"wrong");renderQuestion();
+    }
+
+    function nextQuestion(){
+      if(!answers[current])return;
+      if(current===19){showResults();return}
+      current++;timelineOrder=[];renderQuestion();
+    }
+    function previousQuestion(){if(current>0){current--;timelineOrder=[];renderQuestion()}}
+    function finalRemark(s){return s>=18?"Excellent — You can organize and write a clear biography.":s>=15?"Very Good — You understand the main conventions of biography writing.":s>=12?"Good — Review chronology, connectors, and verb tenses.":s>=8?"Needs Improvement — Review the structure and language of a biography.":"Keep Practising — Start with the basic elements of a biography."}
+    function sectionScores(){return sections.map(([name,start,end])=>[name,answers.slice(start,end).filter(a=>a&&a.correct).length,end-start])}
+    function showResults(){
+      timer.pause();$("quiz-view").classList.add("hide");$("result-page").classList.add("show");
+      const s=score(), attempts=Number(localStorage.getItem("bioAttempts")||0)+1,best=Math.max(Number(localStorage.getItem("bioBest")||0),s);
+      localStorage.setItem("bioAttempts",attempts);localStorage.setItem("bioBest",best);localStorage.setItem("bioLast",s);localStorage.setItem("bioTime",timer.format(elapsed));
+      $("result-kicker").textContent="UNIT 2 QUIZ";$("result-title").textContent=quizConfig.title;$("result-lesson").textContent=quizConfig.lesson;$("final-score").textContent=s.toFixed(2)+" /20";
+      const wrong=20-s,accuracy=(s/20*100).toFixed(0);
+      $("summary-grid").innerHTML=[["Final Score",s.toFixed(2)+" /20"],["Correct Answers",s],["Wrong Answers",wrong],["Accuracy",accuracy+"%"],["Time Taken",timer.format(elapsed)],["Number of Attempts",attempts],["Best Score",best.toFixed(2)+" /20"]].map(x=>"<div class='summary-item'>"+x[0]+"<strong>"+x[1]+"</strong></div>").join("");
+      $("section-breakdown").innerHTML=sectionScores().map(x=>"<p>"+x[0]+": <strong>"+x[1]+"/"+x[2]+"</strong></p>").join("");
+      animateRemark(finalRemark(s));if(s>=18)confetti();playSound("complete");
+    }
+    function animateRemark(finalText){
+      const labels=["Excellent","Very Good","Good","Needs Improvement","Keep Practising"],el=$("final-remark");let n=0;
+      const id=setInterval(()=>{el.textContent=labels[n++%labels.length]},105);
+      setTimeout(()=>{clearInterval(id);el.textContent=finalText},3000);
+    }
+    function confetti(){const holder=$("confetti");holder.innerHTML="";for(let i=0;i<80;i++){const x=document.createElement("i");x.className="confetto";x.style.left=Math.random()*100+"%";x.style.top="-20px";x.style.background=["#2563eb","#16a34a","#f59e0b","#e11d48"][i%4];x.style.setProperty("--drift",(Math.random()*180-90)+"px");x.style.animationDelay=Math.random()*.8+"s";holder.appendChild(x)}}
+    function review(){
+      $("result-page").classList.remove("show");$("review-page").classList.add("show");
+      $("review-content").innerHTML=sections.map(([name,start,end])=>"<section class='review-section'><h2>"+name+"</h2>"+questions.slice(start,end).map((q,offset)=>{
+        const index=start+offset,a=answers[index],tl=isTimeline(q),student=tl?a.order.map(id=>id+". "+q.sentences[id]).join(" → "):q[3][a.selected],correct=tl?q.correct.map(id=>id+". "+q.sentences[id]).join(" → "):q[3][q[4]];
+        return "<article class='review-question'><h3>Question "+(index+1)+". "+q.question+"</h3><p><strong>Student Answer:</strong> <span class='"+(a.correct?"answer-good":"answer-bad")+"'>"+student+"</span></p><p><strong>Correct Answer:</strong> <span class='answer-good'>"+correct+"</span></p><p><strong>Explanation:</strong> "+q.explanation+"</p></article>";
+      }).join("")+"</section>").join("");
+    }
+    function report(){
+      return "UNIT 2 — WRITING A BIOGRAPHY\nBIOGRAPHY WRITING - QUIZ\n\nFinal Score: "+score().toFixed(2)+" /20\nCorrect Answers: "+score()+"\nWrong Answers: "+(20-score())+"\nTime Taken: "+timer.format(elapsed)+"\n\n"+sectionScores().map(x=>x[0]+": "+x[1]+"/"+x[2]).join("\n");
+    }
+    function restart(){current=0;answers=[];timelineOrder=[];$("result-page").classList.remove("show");$("review-page").classList.remove("show");$("quiz-view").classList.remove("hide");timer.reset();timer.start();renderQuestion()}
+    document.addEventListener("keydown",e=>{
+      const q=qData(current);if($("quiz-view").classList.contains("hide")||isTimeline(q))return;
+      if(["1","2","3","4"].includes(e.key)&&!answers[current]){const button=[...document.querySelectorAll(".choice")][Number(e.key)-1];if(button)button.click()}
+      if((e.key==="ArrowRight"||e.key==="Enter"||e.key===" ")&&answers[current]){e.preventDefault();nextQuestion()}
+      if(e.key==="ArrowLeft")previousQuestion();
+    });
+    $("previous-button").addEventListener("click",previousQuestion);$("next-button").addEventListener("click",nextQuestion);
+    $("review-button").addEventListener("click",review);$("restart-button").addEventListener("click",restart);$("back-results-button").addEventListener("click",()=>{$("review-page").classList.remove("show");$("result-page").classList.add("show")});
+    $("print-button").addEventListener("click",()=>window.print());
+    $("save-button").addEventListener("click",()=>{const blob=new Blob([report()],{type:"text/plain"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="biography-quiz-results.txt";a.click();URL.revokeObjectURL(a.href)});
+    window.addEventListener("DOMContentLoaded",()=>{lucide.createIcons();timer.start();renderQuestion()});
+  </script>
+ 
+</body></html>

@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English2BAC Quizzes</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;family=Poppins:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#123b69;
+      --blue:#2563eb;
+      --light-blue:#eaf4ff;
+      --green:#15803d;
+      --green-bg:#dcfce7;
+      --red:#dc2626;
+      --red-bg:#fee2e2;
+      --gray:#64748b;
+      --gray-bg:#f1f5f9;
+      --selected:#dbeafe;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      width:100%;
+      min-height:calc(100 * min(var(--vh, 1vh), 1vh));
+      background:#edf4fb;
+      color:#172033;
+      font-family:'Poppins',sans-serif;
+    }
+    button{font-family:inherit}
+    button:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+    .quiz-header{
+      width:100%;
+      background-color:#eaf4ff;
+      padding:12px 24px;
+      display:grid;
+      grid-template-columns:1fr minmax(220px,2fr) 1fr;
+      align-items:center;
+      gap:14px;
+      border-bottom:1px solid #cfe1f7;
+    }
+    .header-teacher-img,.header-logo-img{
+      height:64px;
+      width:auto;
+      max-width:none;
+      object-fit:contain;
+      display:block;
+    }
+    .header-logo-img{justify-self:end}
+    .header-title{text-align:center;line-height:1.2}
+    .title-line1{font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1e3a5f}
+    .title-line2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:400;color:#2563eb}
+    .title-line3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:400;color:#64748b}
+    .info-bar{
+      width:100%;
+      background:#fff;
+      color:var(--navy);
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      padding:10px clamp(14px,4vw,42px);
+      font-weight:800;
+      font-size:13px;
+      letter-spacing:.05em;
+      border-bottom:1px solid #d9e4f0;
+    }
+    .info-bar span:nth-child(2){text-align:center}
+    .info-bar span:nth-child(3){text-align:right}
+    .quiz-shell{width:100%;max-width:980px;margin:0 auto;padding:28px 20px 40px}
+    .instruction-box{
+      color:#fff;
+      background:var(--navy);
+      border-radius:16px;
+      padding:18px 24px;
+      text-align:center;
+      font-size:clamp(15px,2vw,20px);
+      font-weight:800;
+      letter-spacing:.03em;
+      box-shadow:0 9px 22px rgba(18,59,105,.18);
+    }
+    .task-card{
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 6px 18px rgba(34,57,87,.09);
+      margin-top:18px;
+      padding:clamp(22px,4vw,38px);
+      min-height:145px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+    .task-text{font-size:clamp(18px,2.5vw,25px);font-weight:600;line-height:1.65}
+    .target-word{font-size:clamp(34px,6vw,58px);font-weight:800;color:var(--navy);letter-spacing:.08em}
+    .answers-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .choice,.synonym-tile{
+      min-height:66px;
+      border:2px solid #cad8e8;
+      border-radius:14px;
+      background:#fff;
+      color:#193b62;
+      font-size:17px;
+      font-weight:700;
+      padding:14px 18px;
+      cursor:pointer;
+      transition:transform .18s ease,background .18s ease,border-color .18s ease;
+      position:relative;
+    }
+    .choice:not(:disabled):hover,.synonym-tile:not(:disabled):hover{transform:translateY(-2px);border-color:var(--blue);background:#f8fbff}
+    .choice:disabled,.synonym-tile:disabled{cursor:default}
+    .choice.correct,.synonym-tile.correct{background:var(--green-bg);border-color:var(--green);color:#14532d}
+    .choice.wrong,.synonym-tile.wrong{background:var(--red-bg);border-color:var(--red);color:#991b1b}
+    .synonym-tile.selected{background:var(--selected);border-color:var(--blue);color:#1d4ed8}
+    .synonym-tile.antonym{background:var(--gray-bg);border-color:#94a3b8;color:#475569}
+    .tile-tag{
+      display:block;
+      margin-top:5px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      font-weight:800;
+    }
+    .feedback-box{
+      margin-top:18px;
+      border-radius:14px;
+      padding:16px 19px;
+      background:#fff;
+      border-left:6px solid var(--blue);
+      box-shadow:0 5px 15px rgba(34,57,87,.07);
+    }
+    .feedback-message{font-weight:800;font-size:18px;color:var(--navy)}
+    .explanation{margin-top:5px;line-height:1.55;color:#475569}
+    .navigation{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:14px;
+    }
+    .nav-button,.action-button{
+      border:0;
+      border-radius:12px;
+      padding:12px 19px;
+      font-size:15px;
+      font-weight:800;
+      cursor:pointer;
+      transition:transform .18s ease,opacity .18s ease;
+    }
+    .nav-button:hover:not(:disabled),.action-button:hover{transform:translateY(-2px)}
+    .nav-button:disabled{opacity:.42;cursor:not-allowed}
+    .previous{background:#dce8f5;color:#24476d;justify-self:start}
+    .next{background:var(--blue);color:#fff;justify-self:end}
+    .counter{font-weight:800;color:#45617e}
+    .stats-row{
+      margin-top:13px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px 21px;
+      background:#fff;
+      border:1px solid #dbe5f0;
+      border-radius:12px;
+      padding:13px 18px;
+      color:#334e68;
+      font-size:14px;
+      font-weight:700;
+      box-shadow:0 3px 10px rgba(34,57,87,.05);
+    }
+    .result-card,.review-card{
+      margin-top:2px;
+      background:#fff;
+      border-radius:20px;
+      padding:clamp(24px,4vw,42px);
+      box-shadow:0 9px 25px rgba(34,57,87,.1);
+      text-align:center;
+    }
+    .result-heading{font-size:clamp(26px,4vw,40px);font-weight:800;color:var(--navy);margin:0}
+    .result-meta{margin:8px 0 22px;color:#64748b;font-weight:600}
+    .score-badge{
+      width:180px;height:180px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 18px;background:var(--navy);color:#fff;
+      font-size:31px;font-weight:800;border:10px solid #bfdbfe;
+      box-shadow:0 10px 25px rgba(18,59,105,.22);
+    }
+    .remark{font-size:clamp(25px,4vw,38px);font-weight:800;color:var(--blue);min-height:57px}
+    .summary-grid{
+      text-align:left;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin:25px 0;
+    }
+    .summary-item{background:#f7faff;padding:13px;border-radius:10px;font-size:14px;color:#4b6075}
+    .summary-item strong{display:block;color:var(--navy);font-size:17px;margin-top:2px}
+    .breakdown{border-top:1px solid #dce6f0;padding-top:20px;text-align:left}
+    .breakdown h2{font-size:20px;color:var(--navy);margin:0 0 10px}
+    .breakdown-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf2f7;font-weight:600;color:#4b6075}
+    .action-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px}
+    .review-btn{background:var(--blue);color:#fff}.print-btn{background:#e0ecf9;color:#17426d}.save-btn{background:#dcfce7;color:#166534}.restart-btn{background:var(--navy);color:#fff}
+    .review-card{text-align:left}
+    .review-heading{text-align:center;color:var(--navy);font-size:30px;font-weight:800;margin:0 0 22px}
+    .review-category{margin:28px 0 10px;color:var(--blue);font-size:21px;font-weight:800}
+    .review-question{border:1px solid #dbe5f0;border-radius:14px;padding:18px;margin-bottom:13px;background:#fbfdff}
+    .review-question h3{margin:0 0 10px;font-size:16px;color:var(--navy)}
+    .review-question p{margin:6px 0;line-height:1.55;color:#4b6075}
+    .answer-good{color:var(--green)!important;font-weight:800}.answer-bad{color:var(--red)!important;font-weight:800}
+    #confetti-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+    .confetti{position:absolute;width:10px;height:16px;animation:fall 3.8s linear forwards}
+    @keyframes fall{to{transform:translateY(calc(100 * min(var(--vh, 1vh), 1vh))) rotate(760deg);opacity:0}}
+    .hidden{display:none!important}
+    @media(min-width:600px){.header-teacher-img,.header-logo-img{height:80px}}
+    @media(min-width:1024px){.header-teacher-img,.header-logo-img{height:96px}}
+    @media(max-width:640px){
+      .quiz-header{padding:8px 12px;grid-template-columns:auto 1fr auto;gap:7px}
+      .header-teacher-img,.header-logo-img{height:45px}
+      .title-line1{font-size:16px}.title-line2{font-size:11px}.title-line3{font-size:9px}
+      .info-bar{font-size:10px;padding:9px 12px;letter-spacing:.02em}
+      .quiz-shell{padding:17px 12px 28px}
+      .answers-grid{grid-template-columns:1fr 1fr;gap:10px}
+      .choice,.synonym-tile{font-size:14px;min-height:60px;padding:11px 8px}
+      .navigation{gap:8px}.nav-button{padding:11px 10px;font-size:13px}
+      .stats-row{font-size:12px;gap:6px 13px;padding:11px}
+      .summary-grid{grid-template-columns:1fr}
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  
+  
+ <script>(function(){var ok=true;try{window.localStorage.getItem("__t")}catch(e){ok=false}
+if(!ok){var m={};try{Object.defineProperty(window,"localStorage",{configurable:true,value:{
+getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},
+setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}}}})}catch(e2){}}})();</script></head>
+ <body>
+  <header class="quiz-header"><img class="header-teacher-img" loading="lazy" src="teacher.png" alt="Teacher Soufiane">
+   <div class="header-title">
+    <div class="title-line1">
+     English2BAC Quizzes
+    </div>
+    <div class="title-line2">
+     Learn • Practice • Succeed
+    </div>
+    <div class="title-line3">
+     with Teacher.Soufiane
+    </div>
+   </div><img class="header-logo-img" loading="lazy" src="logo.png" alt="Level-UP 2BAC">
+  </header>
+  <section class="info-bar" aria-label="Quiz information"><span class="">UNIT: 2</span> <span class="">HUMOR</span> <span class="">VOCABULARY - QUIZ 2</span>
+  </section>
+  <main class="quiz-shell">
+   <section id="quiz-view" aria-live="polite">
+    <div id="instruction-box" class="instruction-box"></div>
+    <div id="task-card" class="task-card"></div>
+    <div id="answers-area" class="answers-grid"></div>
+    <div id="feedback-area" class="hidden"></div>
+    <nav class="navigation" aria-label="Question navigation"><button id="previous-button" class="nav-button previous" type="button">◀ Previous</button> <span id="question-counter" class="counter">1 / 20</span> <button id="next-button" class="nav-button next" type="button" disabled="">Next ▶</button>
+    </nav>
+    <div class="stats-row" aria-live="polite"><span id="correct-stat">✅ Correct: 0</span> <span id="wrong-stat">❌ Wrong: 0</span> <span id="remaining-stat">Remaining: 20</span> <span id="score-stat">Score: 0.00 /20</span> <span id="timer-stat">Timer: 00:00</span>
+    </div>
+   </section>
+   <section id="result-view" class="hidden"></section>
+   <section id="review-view" class="hidden"></section>
+  </main>
+  <div id="confetti-layer" aria-hidden="true"></div>
+  <script>
+    const quizConfig = {
+      unit:"2", title:"HUMOR", lesson:"VOCABULARY - QUIZ 2",
+      randomizeQuestions:false, randomizeChoices:true, timerEnabled:true,
+      timerMode:"countup", countdownSeconds:600, showConfetti:true, enableSounds:true,
+      questions:[
+        ["single-choice","Choose the word that matches the definition","CHOOSE THE WORD THAT MATCHES THE DEFINITION.","Something said or done to cause laughter or amusement.",["joke","impression","witty","silly"],"joke","A joke is something said or done to make people laugh."],
+        ["single-choice","Choose the word that matches the definition","CHOOSE THE WORD THAT MATCHES THE DEFINITION.","An amusing imitation of a famous person's voice or manner.",["impression","joke","witty","silly"],"impression","An impression is a funny imitation of someone, often a celebrity."],
+        ["single-choice","Choose the word that matches the definition","CHOOSE THE WORD THAT MATCHES THE DEFINITION.","Funny in a clever, quick-thinking way.",["witty","silly","joke","impression"],"witty","Witty describes someone who is cleverly funny with quick responses."],
+        ["single-choice","Choose the word that matches the definition","CHOOSE THE WORD THAT MATCHES THE DEFINITION.","Funny in a foolish or ridiculous way.",["silly","witty","joke","impression"],"silly","Silly describes something funny because it is foolish or ridiculous."],
+        ["single-choice","Put the word in brackets in its correct form","PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.","Rachid always makes people laugh; he has a great sense of ______. (humorous)",["humor","humorous","humorist","humorously"],"humor","We need a noun after 'sense of', so 'humorous' becomes 'humor'."],
+        ["single-choice","Put the word in brackets in its correct form","PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.","Ekko is a ______ Moroccan comedian known all over the country. (fame)",["famous","fame","famed","famously"],"famous","We need an adjective before 'Moroccan comedian', so 'fame' becomes 'famous'."],
+        ["single-choice","Put the word in brackets in its correct form","PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.","After telling jokes for two hours straight, the comedian felt completely ______. (tiredness)",["tired","tiredness","tiring","tiredly"],"tired","We need an adjective describing how he felt, so 'tiredness' becomes 'tired'."],
+        ["single-choice","Put the word in brackets in its correct form","PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.","The clown's costume looked funny, but his eyes looked strangely ______. (sadness)",["sad","sadness","sadly","saddened"],"sad","We need an adjective describing his eyes, so 'sadness' becomes 'sad'."],
+        ["single-choice","Fill in the gap with the appropriate word from the list","FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.","Bassou is a talented stand-up ______ who performs across Morocco.",["comedian","festival","performance","tourism"],"comedian","A comedian is a performer whose job is to make people laugh."],
+        ["single-choice","Fill in the gap with the appropriate word from the list","FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.","Marrakesh hosts an international comedy ______ every year.",["festival","comedian","performance","tourism"],"festival","A festival is an organized public event celebrating a particular theme, like comedy."],
+        ["single-choice","Fill in the gap with the appropriate word from the list","FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.","The audience praised his brilliant ______ on stage.",["performance","comedian","festival","tourism"],"performance","Performance refers to an act presented in front of an audience."],
+        ["single-choice","Fill in the gap with the appropriate word from the list","FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.","Comedy events attract many visitors, boosting local ______.",["tourism","comedian","festival","performance"],"tourism","Tourism refers to traveling and visiting places for enjoyment, boosted by popular events."],
+        ["single-choice","Choose the word that completes the collocation","CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.","It's unkind to ______ someone just because they look different.",["make fun of","tell a joke to","burst into laughter with","have a sense of humor with"],"make fun of","To make fun of someone is the correct natural collocation meaning to mock them."],
+        ["single-choice","Choose the word that completes the collocation","CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.","The host asked the guest to ______ before the show started.",["tell a joke","make fun of","burst into laughter","have a sense of humor"],"tell a joke","To tell a joke is the correct natural collocation meaning to say something funny."],
+        ["single-choice","Choose the word that completes the collocation","CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.","The whole room ______ when the punchline was revealed.",["burst into laughter","made fun of","told a joke","had a sense of humor"],"burst into laughter","To burst into laughter means to suddenly start laughing loudly."],
+        ["single-choice","Choose the word that completes the collocation","CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.","My uncle Karim has an amazing ______; he can make anyone smile.",["sense of humor","make fun of","tell a joke","burst into laughter"],"sense of humor","Sense of humor is the collocation describing someone's ability to be funny or enjoy humor."],
+        ["three-synonyms","Three Synonyms Challenge","SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.","FUNNY",["amusing","hilarious","comical","serious"],["amusing","hilarious","comical"],"serious","Amusing, hilarious, and comical all describe something that causes laughter. Serious means the opposite."],
+        ["three-synonyms","Three Synonyms Challenge","SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.","CREATIVE",["imaginative","inventive","original","unoriginal"],["imaginative","inventive","original"],"unoriginal","Imaginative, inventive, and original all describe having new ideas. Unoriginal means the opposite."],
+        ["three-synonyms","Three Synonyms Challenge","SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.","SIMILAR",["alike","comparable","corresponding","different"],["alike","comparable","corresponding"],"different","Alike, comparable, and corresponding describe things sharing features. Different means the opposite."],
+        ["three-synonyms","Three Synonyms Challenge","SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.","DESPAIR",["hopelessness","misery","gloom","hope"],["hopelessness","misery","gloom"],"hope","Hopelessness, misery, and gloom describe a loss of hope. Hope means the opposite."]
+      ]
+    };
+
+    const questions = quizConfig.questions.map((item, index) => {
+      const [type, category, question, task, choices, correct, extra, explanation] = item;
+      return type === "single-choice"
+        ? {id:index,type,category,question,task,choices:[...choices],correctAnswer:correct,explanation:extra,points:1}
+        : {id:index,type,category,question,targetWord:task,options:[...choices],correctSynonyms:correct,antonym:extra,explanation,points:1};
+    });
+
+    const state = { current:0, answers:questions.map(() => ({answered:false,correct:false,selected:[],choiceOrder:[]})), evaluationTimer:null, isRendering:false, clickQueue:[] };
+    const correctMessages=["Excellent!","Great Job!","Perfect!","Keep Going!"];
+    const incorrectMessages=["Almost!","Review this rule.","Keep learning!","You'll get the next one!"];
+
+    const timer = (() => {
+      let seconds=0, interval=null, running=false;
+      function format(value){const safe=Math.max(0,value);return `${String(Math.floor(safe/60)).padStart(2,"0")}:${String(safe%60).padStart(2,"0")}`;}
+      function update(){document.getElementById("timer-stat").textContent=`Timer: ${format(seconds)}`;}
+      function start(){
+        if(running || !quizConfig.timerEnabled)return;
+        running=true;
+        interval=setInterval(()=>{
+          if(quizConfig.timerMode==="countdown"){
+            seconds--;
+            if(seconds<=0){seconds=0;update();pause();finishQuiz(true);return;}
+          } else seconds++;
+          update();
+        },1000);
+      }
+      function pause(){running=false;clearInterval(interval);interval=null;}
+      function reset(){pause();seconds=quizConfig.timerMode==="countdown"?quizConfig.countdownSeconds:0;update();}
+      return {start,pause,reset,format,get seconds(){return seconds;}};
+    })();
+
+    function shuffle(array){
+      const copy=[...array];
+      for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]];}
+      return copy;
+    }
+    function randomMessage(isCorrect){const list=isCorrect?correctMessages:incorrectMessages;return list[Math.floor(Math.random()*list.length)];}
+    function playTone(type){
+      if(!quizConfig.enableSounds)return;
+      try{
+        const context=new (window.AudioContext||window.webkitAudioContext)();
+        const oscillator=context.createOscillator(), gain=context.createGain();
+        const settings={correct:[660,.12,"sine"],wrong:[210,.16,"triangle"],toggle:[460,.05,"sine"],complete:[740,.25,"sine"]}[type];
+        oscillator.frequency.value=settings[0];oscillator.type=settings[2];gain.gain.setValueAtTime(.08,context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001,context.currentTime+settings[1]);
+        oscillator.connect(gain);gain.connect(context.destination);oscillator.start();oscillator.stop(context.currentTime+settings[1]);
+      }catch(e){}
+    }
+    function stats(){
+      const answered=state.answers.filter(a=>a.answered);
+      const correct=answered.filter(a=>a.correct).length;
+      document.getElementById("correct-stat").textContent=`✅ Correct: ${correct}`;
+      document.getElementById("wrong-stat").textContent=`❌ Wrong: ${answered.length-correct}`;
+      document.getElementById("remaining-stat").textContent=`Remaining: ${20-answered.length}`;
+      document.getElementById("score-stat").textContent=`Score: ${correct.toFixed(2)} /20`;
+    }
+    function feedback(question, answer){
+      const panel=document.getElementById("feedback-area");
+      panel.classList.remove("hidden");
+      panel.innerHTML=`<div class="feedback-box"><div class="feedback-message">${answer.correct?randomMessage(true):randomMessage(false)}</div><div class="explanation">${question.explanation}</div></div>`;
+    }
+
+    function renderQuestion(){
+      state.isRendering=true;
+      clearTimeout(state.evaluationTimer);
+      const question=questions[state.current], answer=state.answers[state.current];
+      document.getElementById("instruction-box").textContent=question.question;
+      document.getElementById("question-counter").textContent=`${state.current+1} / ${questions.length}`;
+      document.getElementById("previous-button").disabled=state.current===0;
+      document.getElementById("next-button").disabled=!answer.answered;
+      document.getElementById("next-button").textContent=state.current===questions.length-1?"Finish ▶":"Next ▶";
+      document.getElementById("feedback-area").classList.add("hidden");
+      document.getElementById("feedback-area").innerHTML="";
+      question.type==="single-choice"?renderSingleChoice(question,answer):renderSynonyms(question,answer);
+      if(answer.answered)feedback(question,answer);
+      stats();
+      state.isRendering=false;
+      while(state.clickQueue.length)state.clickQueue.shift()();
+    }
+
+    function renderSingleChoice(question, answer){
+      document.getElementById("task-card").innerHTML=`<div class="task-text">${question.task}</div>`;
+      const choices=answer.choiceOrder.length?answer.choiceOrder:(answer.choiceOrder=quizConfig.randomizeChoices?shuffle(question.choices):[...question.choices]);
+      const area=document.getElementById("answers-area");
+      area.innerHTML="";
+      choices.forEach((choice,index)=>{
+        const button=document.createElement("button");
+        button.type="button";button.className="choice";button.textContent=`${index+1}. ${choice}`;
+        if(answer.answered){
+          button.disabled=true;
+          if(choice===question.correctAnswer)button.classList.add("correct");
+          if(choice===answer.selected[0] && !answer.correct)button.classList.add("wrong");
+        }else button.addEventListener("click",()=>selectSingle(choice));
+        area.appendChild(button);
+      });
+    }
+
+    function selectSingle(choice){
+      const question=questions[state.current], answer=state.answers[state.current];
+      if(answer.answered)return;
+      answer.selected=[choice];
+      answer.correct=choice===question.correctAnswer;
+      answer.answered=true;
+      playTone(answer.correct?"correct":"wrong");
+      renderQuestion();
+    }
+
+    function renderSynonyms(question, answer){
+      document.getElementById("task-card").innerHTML=`<div class="target-word">${question.targetWord}</div>`;
+      const options=answer.choiceOrder.length?answer.choiceOrder:(answer.choiceOrder=quizConfig.randomizeChoices?shuffle(question.options):[...question.options]);
+      const area=document.getElementById("answers-area");
+      area.innerHTML="";
+      options.forEach((option,index)=>{
+        const tile=document.createElement("button");
+        tile.type="button";tile.className="synonym-tile";tile.textContent=`${index+1}. ${option}`;
+        if(answer.answered){
+          tile.disabled=true;
+          if(question.correctSynonyms.includes(option))tile.classList.add("correct");
+          if(!answer.correct && answer.selected.includes(option) && !question.correctSynonyms.includes(option))tile.classList.add("wrong");
+          if(option===question.antonym && answer.correct){
+            tile.classList.add("antonym");
+            tile.innerHTML=`${index+1}. ${option}<span class="tile-tag">antonym</span>`;
+          }else if(option===question.antonym && answer.selected.includes(option)){
+            tile.classList.add("wrong");
+            tile.innerHTML=`${index+1}. ${option}<span class="tile-tag">antonym, not a synonym</span>`;
+          }
+        }else{
+          if(answer.selected.includes(option))tile.classList.add("selected");
+          tile.addEventListener("click",()=>queueSynonymToggle(option));
+        }
+        area.appendChild(tile);
+      });
+    }
+
+    // A single selected-array on each answer object is the only source of truth.
+    // Queued clicks protect interactions occurring while the tiles are being redrawn.
+    function queueSynonymToggle(option){
+      if(state.isRendering){state.clickQueue.push(()=>toggleSynonym(option));return;}
+      toggleSynonym(option);
+    }
+    function toggleSynonym(option){
+      const answer=state.answers[state.current];
+      if(answer.answered)return;
+      clearTimeout(state.evaluationTimer);
+      const selected=answer.selected;
+      const existing=selected.indexOf(option);
+      if(existing>=0){selected.splice(existing,1);playTone("toggle");}
+      else if(selected.length<3){selected.push(option);playTone("toggle");}
+      renderQuestion();
+      if(answer.selected.length===3){
+        // Hold selections for half a second. The learner may deselect any tile during this window.
+        state.evaluationTimer=setTimeout(()=>{
+          const currentAnswer=state.answers[state.current];
+          if(!currentAnswer.answered && currentAnswer.selected.length===3)evaluateSynonyms();
+        },500);
+      }
+    }
+
+    // Evaluation sets the same answered flag used by Type A, immediately unlocking Next.
+    function evaluateSynonyms(){
+      const question=questions[state.current], answer=state.answers[state.current];
+      const selectedSet=new Set(answer.selected);
+      answer.correct=question.correctSynonyms.every(word=>selectedSet.has(word)) && selectedSet.size===3;
+      answer.answered=true;
+      playTone(answer.correct?"correct":"wrong");
+      renderQuestion();
+    }
+
+    function nextQuestion(){
+      if(!state.answers[state.current].answered)return;
+      if(state.current===questions.length-1)finishQuiz(false);
+      else{state.current++;renderQuestion();}
+    }
+    function previousQuestion(){if(state.current>0){state.current--;renderQuestion();}}
+
+    function categoryName(index){
+      return ["Definitions","Word Forms","Word Bank","Collocations","Synonyms Challenge"][index];
+    }
+    function categoryScores(){
+      return [0,1,2,3,4].map(group=>{
+        const slice=state.answers.slice(group*4,group*4+4);
+        return slice.filter(answer=>answer.correct).length;
+      });
+    }
+    function remarkFor(score){
+      if(score<10)return"Fail";
+      if(score<12)return"Pass";
+      if(score<14)return"Fairly Good";
+      if(score<16)return"Good";
+      if(score<18)return"Very Good";
+      return"Excellent!";
+    }
+    function finishQuiz(timedOut){
+      if(timedOut && !state.answers[state.current].answered){
+        const answer=state.answers[state.current];
+        answer.answered=true;answer.correct=false;answer.selected=[];
+      }
+      timer.pause();
+      const score=state.answers.filter(answer=>answer.correct).length;
+      const attempts=Number(localStorage.getItem("english2bacAttempts")||"0")+1;
+      const best=Math.max(Number(localStorage.getItem("english2bacBestScore")||"0"),score);
+      localStorage.setItem("english2bacAttempts",attempts);
+      localStorage.setItem("english2bacBestScore",best);
+      localStorage.setItem("english2bacLastScore",score);
+      localStorage.setItem("english2bacTimeTaken",timer.format(timer.seconds));
+      document.getElementById("quiz-view").classList.add("hidden");
+      document.getElementById("review-view").classList.add("hidden");
+      const result=document.getElementById("result-view");
+      result.classList.remove("hidden");
+      const breakdown=categoryScores();
+      result.innerHTML=`
+        <div class="result-card">
+          <h1 class="result-heading">Quiz Complete!</h1>
+          <p class="result-meta">UNIT: 2 · HUMOR · VOCABULARY - QUIZ 2</p>
+          <div class="score-badge">${score.toFixed(2)}<br><span style="font-size:18px">/20</span></div>
+          <div id="remark-slot" class="remark">Calculating...</div>
+          <div class="summary-grid">
+            <div class="summary-item">Final Score<strong>${score.toFixed(2)} /20</strong></div>
+            <div class="summary-item">Correct Answers<strong>${score}</strong></div>
+            <div class="summary-item">Wrong Answers<strong>${20-score}</strong></div>
+            <div class="summary-item">Accuracy Percentage<strong>${(score*5).toFixed(2)}%</strong></div>
+            <div class="summary-item">Time Taken<strong>${timer.format(timer.seconds)}</strong></div>
+            <div class="summary-item">Number of Attempts<strong>${attempts}</strong></div>
+            <div class="summary-item">Best Score<strong>${best.toFixed(2)} /20</strong></div>
+          </div>
+          <div class="breakdown"><h2>Category Breakdown</h2>
+            ${breakdown.map((value,index)=>`<div class="breakdown-row"><span>${categoryName(index)}</span><strong>${value}/4</strong></div>`).join("")}
+          </div>
+          <div class="action-row">
+            <button id="review-button" class="action-button review-btn" type="button">Review My Answers</button>
+            <button id="print-button" class="action-button print-btn" type="button">Print Results</button>
+            <button id="save-button" class="action-button save-btn" type="button">Save Results</button>
+            <button id="restart-button" class="action-button restart-btn" type="button">Restart Quiz</button>
+          </div>
+        </div>`;
+      document.getElementById("review-button").addEventListener("click",renderReview);
+      document.getElementById("print-button").addEventListener("click",printResults);
+      document.getElementById("save-button").addEventListener("click",saveResults);
+      document.getElementById("restart-button").addEventListener("click",restartQuiz);
+      animateRemark(remarkFor(score));
+      if(score>=16 && quizConfig.showConfetti){playTone("complete");makeConfetti();}
+    }
+
+    function animateRemark(finalRemark){
+      const slot=document.getElementById("remark-slot");
+      const remarks=["Fail","Pass","Fairly Good","Good","Very Good","Excellent!"];
+      let count=0, delay=75;
+      function spin(){
+        slot.textContent=remarks[count%remarks.length];count++;
+        if(count<24){delay+=13;setTimeout(spin,delay);}
+        else slot.textContent=finalRemark;
+      }
+      spin();
+    }
+    function makeConfetti(){
+      const layer=document.getElementById("confetti-layer");layer.innerHTML="";
+      ["#2563eb","#16a34a","#f59e0b","#dc2626","#7c3aed"].forEach((color,colorIndex)=>{
+        for(let i=0;i<15;i++){
+          const piece=document.createElement("span");piece.className="confetti";
+          piece.style.background=color;piece.style.left=`${Math.random()*100}%`;
+          piece.style.top=`${-10-Math.random()*25}px`;piece.style.animationDelay=`${Math.random()*.8}s`;
+          piece.style.transform=`rotate(${colorIndex*50}deg)`;layer.appendChild(piece);
+        }
+      });
+      setTimeout(()=>layer.innerHTML="",4500);
+    }
+    function renderReview(){
+      document.getElementById("result-view").classList.add("hidden");
+      const review=document.getElementById("review-view");review.classList.remove("hidden");
+      let html=`<div class="review-card"><h1 class="review-heading">Review My Answers</h1>`;
+      for(let group=0;group<5;group++){
+        html+=`<h2 class="review-category">${categoryName(group)}</h2>`;
+        questions.slice(group*4,group*4+4).forEach((question,offset)=>{
+          const answer=state.answers[group*4+offset];
+          if(question.type==="single-choice"){
+            html+=`<article class="review-question"><h3>${group*4+offset+1}. ${question.task}</h3>
+              <p class="${answer.correct?"answer-good":"answer-bad"}">Student Answer: ${answer.selected[0]||"No answer"}</p>
+              <p class="answer-good">Correct Answer: ${question.correctAnswer}</p><p>Explanation: ${question.explanation}</p></article>`;
+          }else{
+            html+=`<article class="review-question"><h3>${group*4+offset+1}. ${question.targetWord}</h3>
+              <p class="${answer.correct?"answer-good":"answer-bad"}">Student's 3 selections: ${answer.selected.join(", ")||"No answer"}</p>
+              <p class="answer-good">Correct 3 synonyms: ${question.correctSynonyms.join(", ")}</p>
+              <p>Antonym distractor: ${question.antonym}</p><p>Explanation: ${question.explanation}</p></article>`;
+          }
+        });
+      }
+      html+=`<div class="action-row"><button id="back-results" class="action-button review-btn" type="button">Back to Results</button><button id="restart-from-review" class="action-button restart-btn" type="button">Restart Quiz</button></div></div>`;
+      review.innerHTML=html;
+      document.getElementById("back-results").addEventListener("click",()=>{review.classList.add("hidden");document.getElementById("result-view").classList.remove("hidden");});
+      document.getElementById("restart-from-review").addEventListener("click",restartQuiz);
+    }
+    function saveResults(){
+      const score=state.answers.filter(answer=>answer.correct).length;
+      localStorage.setItem("english2bacSavedResult",JSON.stringify({score,time:timer.format(timer.seconds),savedAt:new Date().toISOString()}));
+      const button=document.getElementById("save-button");
+      button.textContent="Results Saved ✓";
+      setTimeout(()=>button.textContent="Save Results",1800);
+    }
+    function printResults(){
+      const score=state.answers.filter(answer=>answer.correct).length;
+      const breakdown=categoryScores();
+      const report=`<html><head><title>English2BAC Quiz Results</title><style>body{font-family:Arial,sans-serif;padding:36px;color:#123b69}h1{margin-bottom:5px}table{border-collapse:collapse;width:100%;margin-top:20px}td,th{border:1px solid #cbd5e1;padding:10px;text-align:left}</style></head><body><h1>English2BAC Quizzes</h1><p>UNIT: 2 · HUMOR · VOCABULARY - QUIZ 2</p><h2>Final Score: ${score.toFixed(2)} /20</h2><p>Correct Answers: ${score} | Wrong Answers: ${20-score} | Accuracy: ${(score*5).toFixed(2)}% | Time Taken: ${timer.format(timer.seconds)}</p><table><tr><th>Category</th><th>Score</th></tr>${breakdown.map((value,index)=>`<tr><td>${categoryName(index)}</td><td>${value}/4</td></tr>`).join("")}</table></body></html>`;
+      const printWindow=window.open("","_blank");
+      if(printWindow){printWindow.document.write(report);printWindow.document.close();printWindow.focus();printWindow.print();}
+    }
+    function restartQuiz(){
+      clearTimeout(state.evaluationTimer);
+      state.current=0;state.answers=questions.map(()=>({answered:false,correct:false,selected:[],choiceOrder:[]}));
+      document.getElementById("result-view").classList.add("hidden");
+      document.getElementById("review-view").classList.add("hidden");
+      document.getElementById("quiz-view").classList.remove("hidden");
+      document.getElementById("confetti-layer").innerHTML="";
+      timer.reset();timer.start();renderQuestion();
+    }
+    document.getElementById("previous-button").addEventListener("click",previousQuestion);
+    document.getElementById("next-button").addEventListener("click",nextQuestion);
+    document.addEventListener("keydown",(event)=>{
+      if(document.getElementById("quiz-view").classList.contains("hidden"))return;
+      if(["1","2","3","4"].includes(event.key)){
+        event.preventDefault();
+        const buttons=[...document.querySelectorAll("#answers-area button:not(:disabled)")];
+        const button=buttons[Number(event.key)-1];if(button)button.click();
+      }else if(event.key==="ArrowLeft"){event.preventDefault();previousQuestion();}
+      else if(event.key==="ArrowRight" || event.key==="Enter" || event.key===" "){
+        event.preventDefault();if(!document.getElementById("next-button").disabled)nextQuestion();
+      }
+    });
+    timer.reset();timer.start();renderQuestion();
+  </script>
+ 
+</body></html>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English2BAC Humor Vocabulary Quiz 1</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&amp;family=Poppins:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#173f73;--blue:#2563eb;--pale:#eaf4ff;--green:#16803c;--red:#c63232;--gray:#64748b;--line:#dbe5f1}
+    *{box-sizing:border-box} body{margin:0;font-family:Poppins,Cairo,sans-serif;color:#17324d;background:#f3f7fc}
+    button{font:inherit}.quiz-shell{width:100%;min-height:calc(100 * min(var(--vh, 1vh), 1vh));padding:18px}
+    .quiz-frame{width:100%;max-width:1120px;margin:auto;background:#fff;box-shadow:0 18px 52px rgba(24,63,115,.14);overflow:hidden}
+    .quiz-header{background-color:#eaf4ff;display:grid;grid-template-columns:1fr minmax(230px,2fr) 1fr;align-items:center;gap:12px;padding:14px 24px}
+    .header-teacher-img,.header-logo-img{height:64px;width:auto;max-width:none;object-fit:contain;display:block}
+    .header-logo-img{justify-self:end}.header-title{text-align:center;line-height:1.2}.title-line1{font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1e3a5f}.title-line2{font-family:'Poppins',sans-serif;font-size:18px;font-weight:400;color:#2563eb}.title-line3{font-family:'Poppins',sans-serif;font-size:14px;font-weight:400;color:#64748b}
+    .info-bar{display:grid;grid-template-columns:1fr 1fr 1fr;background:#fff;border-bottom:1px solid var(--line);padding:12px 24px;color:#1e3a5f;font-size:13px;font-weight:700;letter-spacing:.045em}.info-center{text-align:center}.info-right{text-align:right}
+    .quiz-main{padding:25px}.instruction{background:#173f73;color:#fff;padding:17px 22px;text-align:center;font-weight:800;font-size:18px;letter-spacing:.02em}.question-card{margin-top:20px;border:1px solid var(--line);background:#fff;padding:28px;box-shadow:0 7px 18px rgba(26,61,105,.06)}
+    .task{font-size:21px;line-height:1.6;font-weight:600;text-align:center;color:#183b63;min-height:72px;display:flex;align-items:center;justify-content:center}.target-word{font-size:34px;font-weight:800;letter-spacing:.06em;color:#173f73;text-align:center;padding:4px 0 24px}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:23px}.choice{min-height:62px;border:2px solid #d7e2f0;background:#fff;color:#183b63;text-align:left;padding:13px 17px;font-weight:600;cursor:pointer;transition:.18s;border-radius:10px}.choice:hover:not(:disabled){border-color:#2563eb;background:#f0f6ff;transform:translateY(-1px)}.choice:focus-visible,.nav-button:focus-visible,.result-button:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}.choice.selected{background:#e8f0ff;border-color:#2563eb;color:#174eaf}.choice.correct{background:#e6f7ec;border-color:#16803c;color:#126332}.choice.wrong{background:#fff0f0;border-color:#c63232;color:#a52121}.choice.antonym{background:#edf0f4;border-color:#94a3b8;color:#556170}.choice:disabled{cursor:default}
+    .tile-tag{font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;display:block;margin-top:4px}.feedback{margin-top:20px;padding:14px 16px;border-left:5px solid var(--blue);background:#f2f7ff;color:#173f73;font-weight:700}.feedback.good{border-color:var(--green);background:#edfaf1;color:#126332}.feedback.bad{border-color:var(--red);background:#fff2f2;color:#a52121}.explanation{margin-top:12px;color:#48617c;line-height:1.55;font-size:14px}
+    .navigation{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:22px}.nav-button,.result-button{border:0;border-radius:9px;padding:12px 17px;font-weight:700;cursor:pointer;transition:.18s}.nav-button{background:#173f73;color:#fff}.nav-button:hover:not(:disabled),.result-button:hover{filter:brightness(1.08);transform:translateY(-1px)}.nav-button:disabled{background:#a8b6c7;cursor:not-allowed}.next{text-align:right}.counter{font-size:14px;font-weight:800;color:#173f73}
+    .stats{display:flex;justify-content:center;align-items:center;gap:17px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:15px;padding:15px 4px 2px;color:#334e68;font-size:14px;font-weight:600}.stat strong{color:#173f73}.timer{font-variant-numeric:tabular-nums}
+    .hidden{display:none!important}.result-page{padding:32px 24px;text-align:center}.result-kicker{font-size:13px;font-weight:800;color:#2563eb;letter-spacing:.12em}.result-title{font-size:28px;font-weight:800;color:#173f73;margin:8px 0}.score-badge{width:180px;height:180px;margin:22px auto;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#173f73;color:#fff;border:9px solid #d8eafd;font-size:29px;font-weight:800;box-shadow:0 12px 27px rgba(23,63,115,.2)}.remark{height:42px;font-size:27px;font-weight:800;color:#2563eb;margin-bottom:20px}.summary-grid{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}.summary-item,.breakdown{padding:14px;background:#f4f8fc;border:1px solid var(--line);border-radius:9px}.summary-item span{display:block;font-size:12px;color:#64748b}.summary-item strong{font-size:18px;color:#173f73}.breakdown{max-width:800px;margin:15px auto;text-align:left}.breakdown h2{font-size:16px;margin:0 0 9px;color:#173f73}.breakdown-row{display:flex;justify-content:space-between;border-top:1px solid #dbe5f1;padding:8px 0;font-size:14px}.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.result-button{background:#173f73;color:#fff}.result-button.secondary{background:#2563eb}.result-button.light{background:#eaf4ff;color:#173f73}
+    .review-page{padding:24px}.review-heading{text-align:center;color:#173f73;font-size:26px;font-weight:800;margin:0 0 20px}.review-category{margin:21px 0}.review-category h2{background:#173f73;color:white;padding:11px 15px;font-size:16px;margin:0}.review-entry{border:1px solid var(--line);padding:16px}.review-task{font-weight:700;color:#173f73;margin-bottom:9px}.review-answer{font-size:14px;line-height:1.7}.answer-good{color:#16803c;font-weight:700}.answer-bad{color:#c63232;font-weight:700}.review-back{display:block;margin:22px auto 0}
+    #confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:10}.confetti-piece{position:absolute;width:9px;height:16px;animation:fall 3.5s linear forwards}@keyframes fall{to{transform:translateY(calc(100 * min(var(--vh, 1vh), 1vh))) rotate(720deg);opacity:0}}@media(min-width:600px){.header-teacher-img,.header-logo-img{height:80px}}@media(min-width:1024px){.header-teacher-img,.header-logo-img{height:96px}}@media(max-width:640px){.quiz-shell{padding:0}.quiz-header{padding:8px 12px;grid-template-columns:auto 1fr auto;gap:7px}.header-teacher-img,.header-logo-img{height:45px}.title-line1{font-size:15px}.title-line2{font-size:11px}.title-line3{font-size:9px}.info-bar{padding:10px 12px;font-size:10px}.quiz-main{padding:14px}.instruction{padding:13px;font-size:14px}.question-card{padding:18px 13px}.task{font-size:17px}.target-word{font-size:27px}.choice-grid{gap:9px}.choice{padding:11px;min-height:57px;font-size:14px}.stats{justify-content:flex-start;gap:8px 14px;font-size:12px}.summary-grid{grid-template-columns:repeat(2,1fr)}.result-page{padding:24px 14px}.result-title{font-size:22px}.score-badge{width:150px;height:150px;font-size:24px}.remark{font-size:23px}.navigation{gap:8px}.nav-button{padding:11px 10px;font-size:13px}}
+    @media print{body{background:#fff}.quiz-shell{padding:0}.quiz-frame{box-shadow:none;max-width:none}.quiz-header,.info-bar,.result-page{display:block}.quiz-main,.result-actions,#confetti{display:none!important}.result-page{padding:15px}.score-badge{box-shadow:none}.result-button{display:none}}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  
+  
+ <script>(function(){var ok=true;try{window.localStorage.getItem("__t")}catch(e){ok=false}
+if(!ok){var m={};try{Object.defineProperty(window,"localStorage",{configurable:true,value:{
+getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},
+setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}}}})}catch(e2){}}})();</script></head>
+ <body>
+  <div class="quiz-shell">
+   <div class="quiz-frame">
+    <header class="quiz-header"><img class="header-teacher-img" loading="lazy" src="teacher.png" alt="Teacher Soufiane">
+     <div class="header-title">
+      <div class="title-line1">English2BAC Quizzes</div>
+      <div class="title-line2">Learn • Practice • Succeed</div>
+      <div class="title-line3">with Teacher.Soufiane</div>
+     </div><img class="header-logo-img" loading="lazy" src="logo.png" alt="Level-UP 2BAC">
+    </header>
+    <section class="info-bar" aria-label="Quiz information">
+     <div class="">UNIT: 2</div>
+     <div class="info-center">HUMOR</div>
+     <div class="info-right">VOCABULARY - QUIZ 1</div>
+    </section>
+    <main id="quiz-view" class="quiz-main">
+     <section class="canva-banner instruction">
+      <div id="instruction-text"></div>
+     </section>
+     <section class="question-card" aria-live="polite">
+      <div id="question-content"></div>
+      <div id="answer-area"></div>
+      <div id="feedback-area"></div>
+     </section>
+     <nav class="navigation" aria-label="Question navigation">
+      <div>
+       <button id="previous-button" class="nav-button" type="button">◀ Previous</button>
+      </div>
+      <div id="question-counter" class="counter" aria-live="polite"></div>
+      <div class="next">
+       <button id="next-button" class="nav-button" type="button">Next ▶</button>
+      </div>
+     </nav>
+     <section class="stats" aria-label="Live quiz statistics"><span class="stat">✅ Correct: <strong id="correct-stat">0</strong></span> <span class="stat">❌ Wrong: <strong id="wrong-stat">0</strong></span> <span class="stat">Remaining: <strong id="remaining-stat">20</strong></span> <span class="stat">Score: <strong id="score-stat">0.00 /20</strong></span> <span class="stat timer">Timer <strong id="timer-stat">00:00</strong></span>
+     </section>
+    </main>
+    <section id="result-view" class="result-page hidden">
+     <div class="result-kicker"></div>
+     <h1 class="result-title">Your Results</h1>
+     <div id="score-badge" class="score-badge"></div>
+     <div id="remark" class="remark" aria-live="polite"></div>
+     <section class="summary-grid" aria-label="Performance summary">
+      <div class="summary-item">
+       <span>Final Score</span><strong id="final-score"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Correct Answers</span><strong id="final-correct"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Wrong Answers</span><strong id="final-wrong"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Accuracy Percentage</span><strong id="final-accuracy"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Time Taken</span><strong id="final-time"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Number of Attempts</span><strong id="final-attempts"></strong>
+      </div>
+      <div class="summary-item">
+       <span>Best Score</span><strong id="final-best"></strong>
+      </div>
+     </section>
+     <section class="breakdown">
+      <h2>Category Breakdown</h2>
+      <div id="category-breakdown"></div>
+     </section>
+     <div class="result-actions"><button id="review-button" class="result-button" type="button">Review My Answers</button> <button id="print-button" class="result-button secondary" type="button">Print Results</button> <button id="save-button" class="result-button light" type="button">Save Results</button> <button id="restart-button" class="result-button" type="button">Restart Quiz</button>
+     </div>
+    </section>
+    <section id="review-view" class="review-page hidden">
+     <h1 class="review-heading">Review My Answers</h1>
+     <div id="review-content"></div><button id="back-results-button" class="nav-button review-back" type="button">Back to Results</button>
+    </section>
+   </div>
+  </div>
+  <div id="confetti"></div>
+  
+  <script>
+    const quizConfig = {
+      unit:"2", title:"HUMOR", lesson:"VOCABULARY - QUIZ 1", randomizeQuestions:false, randomizeChoices:true,
+      timerEnabled:true, timerMode:"countup", countdownSeconds:600, showConfetti:true, enableSounds:true,
+      questions:[
+        {type:"single-choice",category:"Choose the word that matches the definition",question:"CHOOSE THE WORD THAT MATCHES THE DEFINITION.",task:"The state of feeling bored, uninterested, or weary.",choices:["boredom","marriage","decision","bravery"],correctAnswer:"boredom",explanation:"Boredom is the noun describing the feeling of being uninterested or weary.",points:1},
+        {type:"single-choice",category:"Choose the word that matches the definition",question:"CHOOSE THE WORD THAT MATCHES THE DEFINITION.",task:"A choice or conclusion reached after careful consideration.",choices:["decision","boredom","bravery","generosity"],correctAnswer:"decision",explanation:"A decision is a conclusion or choice reached after thinking something through.",points:1},
+        {type:"single-choice",category:"Choose the word that matches the definition",question:"CHOOSE THE WORD THAT MATCHES THE DEFINITION.",task:"Courage shown when facing danger, pain, or difficulty.",choices:["bravery","decision","boredom","generosity"],correctAnswer:"bravery",explanation:"Bravery is the quality of showing courage in difficult or dangerous situations.",points:1},
+        {type:"single-choice",category:"Choose the word that matches the definition",question:"CHOOSE THE WORD THAT MATCHES THE DEFINITION.",task:"The quality of being willing to give freely to others.",choices:["generosity","bravery","decision","boredom"],correctAnswer:"generosity",explanation:"Generosity is the quality of giving freely and willingly to others.",points:1},
+        {type:"single-choice",category:"Put the word in brackets in its correct form",question:"PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.",task:"After watching the same show for the third time, I felt completely ______. (boredom)",choices:["bored","boredom","boring","boredly"],correctAnswer:"bored",explanation:"We need an adjective describing how the person feels, so 'boredom' becomes 'bored'.",points:1},
+        {type:"single-choice",category:"Put the word in brackets in its correct form",question:"PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.",task:"Public speaking is a very ______ activity for many people because it makes them nervous. (tension)",choices:["tensed","tension","tensely","tensile"],correctAnswer:"tensed",explanation:"We need an adjective before 'activity', so 'tension' becomes 'tensed'.",points:1},
+        {type:"single-choice",category:"Put the word in brackets in its correct form",question:"PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.",task:"A good manager should always be ______ when facing difficult situations. (decision)",choices:["decisive","decision","decisively","decided"],correctAnswer:"decisive",explanation:"We need an adjective after 'be', so 'decision' becomes 'decisive'.",points:1},
+        {type:"single-choice",category:"Put the word in brackets in its correct form",question:"PUT THE WORD IN BRACKETS IN ITS CORRECT FORM.",task:"After the long hike, we finally felt ______ sitting by the lake. (relaxation)",choices:["relaxed","relaxation","relaxing","relaxedly"],correctAnswer:"relaxed",explanation:"We need an adjective describing how they felt, so 'relaxation' becomes 'relaxed'.",points:1},
+        {type:"single-choice",category:"Fill in the gap with the appropriate word from the list",question:"FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.",task:"Winning the competition filled the team with great ______.",choices:["joy","anger","frustration","calm"],correctAnswer:"joy",explanation:"'Joy' fits because the sentence describes a strong feeling of happiness after winning.",points:1},
+        {type:"single-choice",category:"Fill in the gap with the appropriate word from the list",question:"FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.",task:"He slammed the door in ______ after losing the match.",choices:["anger","joy","calm","frustration"],correctAnswer:"anger",explanation:"'Anger' fits because slamming a door is a common reaction to strong anger.",points:1},
+        {type:"single-choice",category:"Fill in the gap with the appropriate word from the list",question:"FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.",task:"Not being able to fix the broken printer caused a lot of ______ among the staff.",choices:["frustration","joy","anger","calm"],correctAnswer:"frustration",explanation:"'Frustration' fits because it describes annoyance at being unable to solve a problem.",points:1},
+        {type:"single-choice",category:"Fill in the gap with the appropriate word from the list",question:"FILL IN THE GAP WITH THE APPROPRIATE WORD FROM THE LIST.",task:"Despite the chaos around her, she remained completely ______.",choices:["calm","joy","anger","frustration"],correctAnswer:"calm",explanation:"'Calm' fits because it describes staying relaxed and steady despite chaos.",points:1},
+        {type:"single-choice",category:"Choose the word that completes the collocation",question:"CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.",task:"Kids always ______ fun when they play games with their friends after school.",choices:["have","make","do","take"],correctAnswer:"have",explanation:"'Have fun' is the correct natural collocation in English.",points:1},
+        {type:"single-choice",category:"Choose the word that completes the collocation",question:"CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.",task:"She has an ______ talent; she can paint beautiful portraits without any training.",choices:["artistic","natural","skilled","gifted"],correctAnswer:"artistic",explanation:"'Artistic talent' is the correct natural collocation in English.",points:1},
+        {type:"single-choice",category:"Choose the word that completes the collocation",question:"CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.",task:"After hearing all the evidence, the jury became fully ______ of his innocence.",choices:["convinced","favorite","brilliant","influenced"],correctAnswer:"convinced",explanation:"'Fully convinced' is the correct natural collocation in English.",points:1},
+        {type:"single-choice",category:"Choose the word that completes the collocation",question:"CHOOSE THE WORD THAT COMPLETES THE COLLOCATION.",task:"Comedy has a strong ______ on how people cope with stress in their daily lives.",choices:["influence","favorite","brilliant","convinced"],correctAnswer:"influence",explanation:"'Have an influence on' is the correct natural collocation in English.",points:1},
+        {type:"three-synonyms",category:"Three Synonyms Challenge",question:"SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.",targetWord:"BRILLIANT",options:["fabulous","wonderful","splendid","terrible"],correctSynonyms:["fabulous","wonderful","splendid"],antonym:"terrible",explanation:"'Fabulous', 'wonderful', and 'splendid' all describe something excellent or impressive, like 'brilliant'. 'Terrible' means the opposite — very bad or unpleasant.",points:1},
+        {type:"three-synonyms",category:"Three Synonyms Challenge",question:"SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.",targetWord:"JOYFUL",options:["cheerful","delighted","elated","miserable"],correctSynonyms:["cheerful","delighted","elated"],antonym:"miserable",explanation:"'Cheerful', 'delighted', and 'elated' all describe feeling very happy, like 'joyful'. 'Miserable' means the opposite — feeling very unhappy.",points:1},
+        {type:"three-synonyms",category:"Three Synonyms Challenge",question:"SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.",targetWord:"WORRIED",options:["anxious","nervous","concerned","carefree"],correctSynonyms:["anxious","nervous","concerned"],antonym:"carefree",explanation:"'Anxious', 'nervous', and 'concerned' all describe feeling uneasy about something, like 'worried'. 'Carefree' means the opposite — free from worry.",points:1},
+        {type:"three-synonyms",category:"Three Synonyms Challenge",question:"SELECT THE THREE WORDS THAT ARE SYNONYMS OF THE TARGET WORD.",targetWord:"VIVACIOUS",options:["lively","energetic","spirited","dull"],correctSynonyms:["lively","energetic","spirited"],antonym:"dull",explanation:"'Lively', 'energetic', and 'spirited' all describe someone full of life and enthusiasm, like 'vivacious'. 'Dull' means the opposite — lacking energy or excitement.",points:1}
+      ]
+    };
+
+    const appState={index:0,questions:[],answers:[],synonymTimer:null,updating:false,pendingTile:null,attempts:0};
+    const correctMessages=["Excellent!","Great Job!","Perfect!","Keep Going!"];
+    const wrongMessages=["Almost!","Review this rule.","Keep learning!","You'll get the next one!"];
+    const $=id=>document.getElementById(id);
+    const shuffle=array=>array.slice().sort(()=>Math.random()-.5);
+    const message=(ok)=> (ok?correctMessages:wrongMessages)[Math.floor(Math.random()*4)];
+
+    /* Self-contained count-up/count-down timer independent from rendering. */
+    const timer={
+      seconds:0,interval:null,running:false,
+      start(){if(!quizConfig.timerEnabled||this.running)return;this.running=true;this.interval=setInterval(()=>{this.seconds+=quizConfig.timerMode==="countdown"?-1:1;if(this.seconds<=0&&quizConfig.timerMode==="countdown"){this.seconds=0;this.pause();finishQuiz()}updateStats()},1000)},
+      pause(){clearInterval(this.interval);this.interval=null;this.running=false},
+      reset(){this.pause();this.seconds=quizConfig.timerMode==="countdown"?quizConfig.countdownSeconds:0;updateStats()},
+      format(){const s=Math.max(0,this.seconds);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+    };
+
+    function playSound(type){
+      if(!quizConfig.enableSounds)return;
+      try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();const data={correct:[660,.12],wrong:[220,.15],complete:[740,.3],toggle:[480,.05]}[type];osc.frequency.value=data[0];gain.gain.setValueAtTime(.07,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+data[1]);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+data[1])}catch(e){}
+    }
+
+    function initialiseQuiz(){
+      appState.questions=quizConfig.questions.map(question=>({...question,displayChoices:quizConfig.randomizeChoices?shuffle(question.choices||question.options):(question.choices||question.options).slice()}));
+      appState.answers=appState.questions.map(()=>({answered:false,correct:false,selected:null,selections:new Set()}));
+      appState.index=0;timer.reset();renderQuestion();timer.start();
+    }
+
+    function updateStats(){
+      const answered=appState.answers.filter(a=>a.answered),correct=answered.filter(a=>a.correct).length;
+      $("correct-stat").textContent=correct;$("wrong-stat").textContent=answered.length-correct;$("remaining-stat").textContent=20-answered.length;$("score-stat").textContent=correct.toFixed(2)+" /20";$("timer-stat").textContent=timer.format();
+    }
+
+    function renderQuestion(){
+      clearTimeout(appState.synonymTimer);appState.synonymTimer=null;appState.updating=false;appState.pendingTile=null;
+      const q=appState.questions[appState.index],answer=appState.answers[appState.index];
+      $("instruction-text").textContent=q.question;$("question-counter").textContent=(appState.index+1)+" / 20";$("question-content").innerHTML="";$("answer-area").innerHTML="";$("feedback-area").innerHTML="";
+      if(q.type==="single-choice")renderSingleChoice(q,answer);else renderSynonyms(q,answer);
+      $("previous-button").disabled=appState.index===0;$("next-button").disabled=!answer.answered;$("next-button").style.visibility=appState.index===19&&answer.answered?"visible":"visible";updateStats();
+    }
+
+    function renderSingleChoice(question,answer){
+      $("question-content").innerHTML='<div class="task"></div>';$("question-content").firstChild.textContent=question.task;
+      const grid=document.createElement("div");grid.className="choice-grid";
+      question.displayChoices.forEach((choice,index)=>{const button=document.createElement("button");button.type="button";button.className="choice";button.textContent=(index+1)+". "+choice;button.dataset.choice=choice;
+        if(answer.answered){button.disabled=true;if(choice===question.correctAnswer)button.classList.add("correct");if(choice===answer.selected&&choice!==question.correctAnswer)button.classList.add("wrong")}
+        else button.addEventListener("click",()=>answerSingleChoice(choice));
+        grid.appendChild(button)});
+      $("answer-area").appendChild(grid);if(answer.answered)showFeedback(answer.correct,question.explanation);
+    }
+
+    function answerSingleChoice(choice){
+      const q=appState.questions[appState.index],a=appState.answers[appState.index];if(a.answered)return;
+      a.selected=choice;a.correct=choice===q.correctAnswer;a.answered=true;playSound(a.correct?"correct":"wrong");renderQuestion();
+    }
+
+    function renderSynonyms(question,answer){
+      $("question-content").innerHTML='<div class="target-word"></div>';$("question-content").firstChild.textContent=question.targetWord;
+      const grid=document.createElement("div");grid.className="choice-grid";
+      question.displayChoices.forEach((option,index)=>{const tile=document.createElement("button");tile.type="button";tile.className="choice";tile.textContent=(index+1)+". "+option;tile.dataset.index=index;
+        if(answer.answered){tile.disabled=true;applySynonymResultClass(tile,option,question,answer)}
+        else {if(answer.selections.has(index))tile.classList.add("selected");tile.addEventListener("click",()=>safeToggleSynonym(index))}
+        grid.appendChild(tile)});
+      $("answer-area").appendChild(grid);if(answer.answered)showFeedback(answer.correct,question.explanation);
+    }
+
+    /* One Set is the only source of truth. Queued clicks are replayed after a paint-safe update. */
+    function safeToggleSynonym(index){
+      if(appState.updating){appState.pendingTile=index;return}
+      appState.updating=true;
+      const answer=appState.answers[appState.index];
+      if(answer.answered){appState.updating=false;return}
+      if(answer.selections.has(index)){clearTimeout(appState.synonymTimer);appState.synonymTimer=null;answer.selections.delete(index);playSound("toggle")}
+      else if(answer.selections.size<3){answer.selections.add(index);playSound("toggle")}
+      renderQuestion();
+      appState.updating=false;
+      if(appState.pendingTile!==null){const queued=appState.pendingTile;appState.pendingTile=null;safeToggleSynonym(queued);return}
+      if(answer.selections.size===3&&!answer.answered){
+        appState.synonymTimer=setTimeout(()=>evaluateSynonyms(),500);
+      }
+    }
+
+    /* At exactly three selections evaluation locks the same answered flag used by Next. */
+    function evaluateSynonyms(){
+      const q=appState.questions[appState.index],a=appState.answers[appState.index];
+      if(a.answered||a.selections.size!==3)return;
+      const selected=[...a.selections].map(i=>q.displayChoices[i]);
+      a.selected=selected;a.correct=selected.length===3&&selected.every(word=>q.correctSynonyms.includes(word));
+      a.answered=true; /* This immediately enables Next on render. */
+      playSound(a.correct?"correct":"wrong");renderQuestion();
+    }
+
+    function applySynonymResultClass(tile,option,q,a){
+      const selected=a.selected||[];
+      if(q.correctSynonyms.includes(option))tile.classList.add("correct");
+      if(selected.includes(option)&&!q.correctSynonyms.includes(option))tile.classList.add("wrong");
+      if(option===q.antonym&&!selected.includes(option)){tile.classList.add("antonym");const tag=document.createElement("span");tag.className="tile-tag";tag.textContent="antonym";tile.appendChild(tag)}
+      if(option===q.antonym&&selected.includes(option)){const tag=document.createElement("span");tag.className="tile-tag";tag.textContent="antonym, not a synonym";tile.appendChild(tag)}
+    }
+
+    function showFeedback(correct,explanation){$("feedback-area").innerHTML='<div class="feedback '+(correct?"good":"bad")+'">'+message(correct)+'</div><div class="explanation">'+explanation+'</div>'}
+    function moveQuestion(direction){const current=appState.answers[appState.index];if(direction===1&&!current.answered)return;if(appState.index===19&&direction===1){finishQuiz();return}appState.index=Math.max(0,Math.min(19,appState.index+direction));renderQuestion()}
+
+    function categoryStats(){
+      const labels=["Definitions","Word Forms","Word Bank","Collocations","Synonyms Challenge"],groups=[0,4,8,12,16];
+      return labels.map((label,i)=>({label,score:appState.answers.slice(groups[i],groups[i]+4).filter(a=>a.correct).length}));
+    }
+    function finalRemark(score){if(score<10)return"Fail";if(score<12)return"Pass";if(score<14)return"Fairly Good";if(score<16)return"Good";if(score<18)return"Very Good";return"Excellent!"}
+
+    function finishQuiz(){
+      timer.pause();$("quiz-view").classList.add("hidden");$("review-view").classList.add("hidden");$("result-view").classList.remove("hidden");
+      const score=appState.answers.filter(a=>a.correct).length,wrong=20-score,attempts=Number(localStorage.getItem("humorQuizAttempts")||0)+1,best=Math.max(Number(localStorage.getItem("humorQuizBest")||0),score);
+      appState.attempts=attempts;localStorage.setItem("humorQuizAttempts",attempts);localStorage.setItem("humorQuizBest",best);localStorage.setItem("humorQuizLast",score);localStorage.setItem("humorQuizTime",timer.format());
+      $("score-badge").textContent=score.toFixed(2)+" /20";$("final-score").textContent=score.toFixed(2)+" /20";$("final-correct").textContent=score;$("final-wrong").textContent=wrong;$("final-accuracy").textContent=((score/20)*100).toFixed(2)+"%";$("final-time").textContent=timer.format();$("final-attempts").textContent=attempts;$("final-best").textContent=best.toFixed(2)+" /20";
+      $("category-breakdown").innerHTML=categoryStats().map(row=>'<div class="breakdown-row"><span>'+row.label+'</span><strong>'+row.score+'/4</strong></div>').join("");
+      animateRemark(finalRemark(score));playSound("complete");if(score>=16&&quizConfig.showConfetti)makeConfetti();
+    }
+
+    function animateRemark(finalText){
+      const words=["Fail","Pass","Fairly Good","Good","Very Good","Excellent!"];let count=0,delay=75;
+      function tick(){ $("remark").textContent=count<18?words[count%words.length]:finalText;if(count++<18){delay+=19;setTimeout(tick,delay)} }tick();
+    }
+    function makeConfetti(){const root=$("confetti");root.innerHTML="";["#2563eb","#16803c","#f59e0b","#c63232","#7c3aed"].forEach((color,c)=>{for(let i=0;i<18;i++){const piece=document.createElement("i");piece.className="confetti-piece";piece.style.left=(Math.random()*100)+"%";piece.style.top=(-10-Math.random()*35)+"px";piece.style.background=color;piece.style.animationDelay=(Math.random()*.7)+"s";root.appendChild(piece)}});setTimeout(()=>root.innerHTML="",4500)}
+
+    function showReview(){
+      $("result-view").classList.add("hidden");$("review-view").classList.remove("hidden");const groups=["Choose the word that matches the definition","Put the word in brackets in its correct form","Fill in the gap with the appropriate word from the list","Choose the word that completes the collocation","Three Synonyms Challenge"];
+      $("review-content").innerHTML=groups.map(group=>'<section class="review-category"><h2>'+group+'</h2>'+appState.questions.map((q,i)=>({q,i})).filter(x=>x.q.category===group).map(({q,i})=>reviewEntry(q,appState.answers[i],i)).join("")+'</section>').join("");
+    }
+    function reviewEntry(q,a,index){
+      if(q.type==="single-choice")return '<article class="review-entry"><div class="review-task">'+(index+1)+". "+q.task+'</div><div class="review-answer">Student Answer: <span class="'+(a.correct?"answer-good":"answer-bad")+'">'+a.selected+'</span><br>Correct Answer: <span class="answer-good">'+q.correctAnswer+'</span><br>Explanation: '+q.explanation+'</div></article>';
+      return '<article class="review-entry"><div class="review-task">'+(index+1)+". "+q.targetWord+'</div><div class="review-answer">Student’s 3 selections: <span class="'+(a.correct?"answer-good":"answer-bad")+'">'+a.selected.join(", ")+'</span><br>Correct 3 synonyms: <span class="answer-good">'+q.correctSynonyms.join(", ")+'</span><br>Antonym distractor: <span class="answer-bad">'+q.antonym+'</span><br>Explanation: '+q.explanation+'</div></article>';
+    }
+
+    function saveResults(){
+      const score=appState.answers.filter(a=>a.correct).length;
+      const report=["English2BAC Quizzes","UNIT: 2","HUMOR","VOCABULARY - QUIZ 1","","Final Score: "+score.toFixed(2)+" /20","Correct Answers: "+score,"Wrong Answers: "+(20-score),"Time Taken: "+timer.format(),"","Category Breakdown:"].concat(categoryStats().map(x=>x.label+": "+x.score+"/4")).join("\n");
+      const link=document.createElement("a");link.href=URL.createObjectURL(new Blob([report],{type:"text/plain"}));link.download="English2BAC-Humor-Quiz-Results.txt";link.click();URL.revokeObjectURL(link.href);
+    }
+
+    $("previous-button").addEventListener("click",()=>moveQuestion(-1));$("next-button").addEventListener("click",()=>moveQuestion(1));$("review-button").addEventListener("click",showReview);$("back-results-button").addEventListener("click",()=>{$("review-view").classList.add("hidden");$("result-view").classList.remove("hidden")});$("restart-button").addEventListener("click",()=>{$("result-view").classList.add("hidden");$("review-view").classList.add("hidden");$("quiz-view").classList.remove("hidden");initialiseQuiz()});$("print-button").addEventListener("click",()=>window.print());$("save-button").addEventListener("click",saveResults);
+
+    document.addEventListener("keydown",event=>{
+      if(!$("quiz-view").classList.contains("hidden")){
+        if(["1","2","3","4"].includes(event.key)){const index=Number(event.key)-1,q=appState.questions[appState.index];if(q.type==="single-choice"){const choice=q.displayChoices[index];if(choice)answerSingleChoice(choice)}else safeToggleSynonym(index);event.preventDefault()}
+        if(event.key==="ArrowLeft")moveQuestion(-1);if(event.key==="ArrowRight"||event.key==="Enter"||event.key===" "){if(appState.answers[appState.index].answered)moveQuestion(1);event.preventDefault()}
+      }
+    });
+    initialiseQuiz();
+  </script>
+ 
+</body></html>

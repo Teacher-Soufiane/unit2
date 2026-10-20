@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English2BAC Quizzes</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#123c70;--blue:#2563eb;--pale:#eaf4ff;--ink:#17324d;--green:#15803d;--red:#dc2626;--line:#d7e2ef;--gray:#f4f7fb}
+    *{box-sizing:border-box} body{margin:0;font-family:Poppins,Cairo,sans-serif;color:var(--ink);background:#eef5fb}.quiz-shell{width:100%;min-height:calc(100 * min(var(--vh,1vh),1vh));padding-bottom:28px}
+    .quiz-header{background-color:#eaf4ff;padding:12px 22px;display:grid;grid-template-columns:1fr minmax(220px,2fr) 1fr;align-items:center;gap:16px;border-bottom:1px solid #cfe2f6}
+    .header-teacher-img,.header-logo-img{height:64px;width:auto;max-width:none;object-fit:contain}.header-logo-img{justify-self:end}.header-title{text-align:center;line-height:1.2}.title-line1{font-family:Poppins,sans-serif;font-size:26px;font-weight:800;color:#1e3a5f}.title-line2{font-family:Poppins,sans-serif;font-size:18px;font-weight:400;color:#2563eb}.title-line3{font-family:Poppins,sans-serif;font-size:14px;font-weight:400;color:#64748b}
+    .info-bar{background:#fff;display:grid;grid-template-columns:1fr 2.5fr 1fr;gap:14px;padding:10px 24px;border-bottom:1px solid var(--line);font-size:12px;font-weight:700;letter-spacing:.035em;color:#31506f}.info-bar span:nth-child(2){text-align:center}.info-bar span:last-child{text-align:right}
+    .app-main{width:100%;max-width:1120px;margin:20px auto 0;padding:0 18px}.instruction{background:#123c70;color:#fff;border-radius:14px;padding:15px 20px;font-weight:800;letter-spacing:.025em;box-shadow:0 9px 20px #123c7022}
+    .task-card{background:#fff;margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 10px 26px #2557840e}.category-title{font-size:14px;font-weight:800;color:var(--blue);margin:0 0 14px}.task-text{white-space:pre-line;background:#f8fbff;border-left:4px solid var(--blue);padding:16px;border-radius:8px;margin-bottom:18px;font-size:16px;line-height:1.7}
+    .pool,.dropzone{min-height:96px;border:2px dashed #b9cce0;border-radius:12px;padding:12px;background:#f9fcff}.pool{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}.classify-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.dropzone h3{margin:0 0 10px;font-size:14px;color:var(--navy)}.tile{background:#fff;border:1px solid #a9c1dd;border-radius:9px;padding:10px 12px;cursor:grab;font-size:13px;line-height:1.4;box-shadow:0 3px 8px #123c7010}.tile.selected,.choice.selected{border-color:var(--blue);background:#e8f1ff;box-shadow:0 0 0 3px #2563eb22}.tile.correct,.order-card.correct,.match-row.correct,.choice.correct{background:#e8f8ed;border-color:var(--green);color:#126232}.tile.wrong,.order-card.wrong,.match-row.wrong,.choice.wrong{background:#ffeded;border-color:var(--red);color:#a51919}.placed{display:flex;flex-direction:column;gap:8px}.correct-note{font-size:11px;font-weight:700;margin-top:5px;color:#a51919}
+    .primary-btn,.nav-btn,.action-btn{border:0;border-radius:10px;padding:11px 17px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer;transition:.18s transform,.18s opacity}.primary-btn:hover,.nav-btn:hover,.action-btn:hover{transform:translateY(-1px)}button:disabled{opacity:.42;cursor:not-allowed;transform:none!important}.check-wrap{margin-top:18px;display:flex;justify-content:center}.feedback{margin-top:16px;padding:13px 15px;border-radius:10px;background:#f1f7ff;border-left:4px solid var(--blue);font-size:14px;line-height:1.55}.feedback strong{display:block;margin-bottom:3px}.order-list{display:grid;gap:10px}.order-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;border:1px solid #b9cce0;padding:11px;border-radius:10px;background:#fff;cursor:grab}.move-group{display:flex;gap:5px}.mini-btn{border:1px solid #a9c1dd;background:#f5f9ff;color:var(--navy);border-radius:6px;width:30px;height:30px;cursor:pointer;font-weight:800}.match-list{display:grid;gap:12px}.match-row{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;align-items:center;border:1px solid var(--line);padding:13px;border-radius:10px}.match-row label{font-size:14px;font-weight:600}.match-row select{width:100%;padding:10px;border:1px solid #9db7d3;border-radius:8px;background:white;font:inherit;color:var(--ink)}.choice-list{display:grid;gap:11px}.choice{width:100%;text-align:left;border:2px solid #b9cce0;background:#fff;color:var(--ink);border-radius:10px;padding:13px 15px;font:inherit;cursor:pointer;transition:.15s}.choice:hover:not(:disabled){border-color:var(--blue);background:#f5f9ff}.chat{display:grid;gap:11px;margin-bottom:18px}.bubble{max-width:76%;padding:12px 15px;border-radius:16px;font-size:14px;line-height:1.5;animation:fade .25s ease}.bubble.left{justify-self:start;background:#e6f1ff;border-bottom-left-radius:4px}.bubble.right{justify-self:end;background:#edf9ef;border-bottom-right-radius:4px}.bubble.missing{background:#f1f5f9;color:#64748b;font-weight:700}.function-tag{display:inline-block;border-radius:999px;background:#dbeafe;color:#1d4ed8;padding:5px 10px;font-size:12px;font-weight:800;margin-bottom:8px}
+    .nav-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-top:17px;gap:12px}.nav-btn:last-child{justify-self:end}.counter{font-weight:800;color:var(--navy)}.stats{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 15px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:13px;font-weight:700}.results{padding:10px 0}.result-head{text-align:center}.score-badge{width:184px;height:184px;border-radius:50%;display:grid;place-items:center;margin:20px auto;background:#123c70;color:white;border:10px solid #b8d8ff;box-shadow:0 10px 28px #123c7033;font-size:29px;font-weight:800}.remark{min-height:42px;font-size:28px;font-weight:800;color:var(--blue);margin-bottom:20px}.summary{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 10px 26px #2557840e}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.metric{background:#f7faff;padding:12px;border-radius:10px}.metric span{display:block;font-size:12px;color:#52708d}.metric strong{font-size:18px}.breakdown{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:14px}.result-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}.action-btn.secondary{background:#fff;color:var(--navy);border:1px solid #9db7d3}.review-group{margin:20px 0}.review-group h2{font-size:19px;color:var(--navy)}.review-item{background:#fff;border:1px solid var(--line);padding:15px;border-radius:12px;margin:10px 0;font-size:14px;line-height:1.55}.review-good{border-left:5px solid var(--green)}.review-bad{border-left:5px solid var(--red)}.confetti{position:fixed;width:9px;height:14px;top:-20px;z-index:10;animation:fall 3.7s linear forwards}
+    @keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}@keyframes fall{to{transform:translate(var(--x),calc(100 * min(var(--vh,1vh),1vh))) rotate(720deg);opacity:0}}
+    @media(min-width:600px){.header-teacher-img,.header-logo-img{height:80px}}@media(min-width:1024px){.header-teacher-img,.header-logo-img{height:96px}}@media(max-width:640px){.header-teacher-img,.header-logo-img{height:45px}.quiz-header{padding:8px 12px;gap:8px;grid-template-columns:auto 1fr auto}.title-line1{font-size:17px}.title-line2{font-size:12px}.title-line3{font-size:10px}.info-bar{grid-template-columns:1fr 2fr 1fr;padding:9px 12px;font-size:10px;gap:7px}.app-main{padding:0 11px;margin-top:12px}.task-card{padding:15px}.instruction{font-size:13px;padding:13px}.classify-grid{grid-template-columns:1fr}.match-row{grid-template-columns:1fr}.bubble{max-width:90%}.summary-grid{grid-template-columns:repeat(2,1fr)}.breakdown{grid-template-columns:1fr}.stats{justify-content:flex-start;gap:8px 15px}.nav-btn{padding:10px;font-size:12px}}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  
+  
+ <script>(function(){var ok=true;try{window.localStorage.getItem("__t")}catch(e){ok=false}
+if(!ok){var m={};try{Object.defineProperty(window,"localStorage",{configurable:true,value:{
+getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},
+setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}}}})}catch(e2){}}})();</script></head>
+ <body>
+  <div class="quiz-shell">
+   <header class="quiz-header">
+    <img class="header-teacher-img" loading="lazy" src="teacher.png" alt="Teacher Soufiane">
+    <div class="header-title">
+     <div class="title-line1">English2BAC Quizzes</div>
+     <div class="title-line2">Learn • Practice • Succeed</div>
+     <div class="title-line3">with Teacher.Soufiane</div>
+    </div><img class="header-logo-img" loading="lazy" src="logo.png" alt="Level-UP 2BAC">
+   </header>
+   <section class="canva-banner info-bar" aria-label="Quiz information">
+    <span class="">UNIT: 2</span> <span class=""></span> <span class="">FUNCTIONS - QUIZ 2</span>
+   </section>
+   <main class="app-main">
+    <section id="quiz-view" aria-live="polite"></section>
+    <section id="result-view" class="hidden"></section>
+    <section id="review-view" class="hidden"></section>
+   </main>
+  </div>
+  
+  <script>
+    const quizConfig={
+      unit:"2",title:"EXPRESS LACK OF UNDERSTANDING & ASKING FOR CLARIFICATION",lesson:"FUNCTIONS - QUIZ 2",teacherName:"Teacher Soufiane",
+      teacherImage:"https://i.imgur.com/vvyZAnr.png",logo:"https://i.imgur.com/XPOYllA.png",randomizeQuestions:false,randomizeChoices:true,timerEnabled:true,timerMode:"countup",showConfetti:true,enableSounds:true,
+      questions:[
+        {type:"drag-classify",category:"Classify the Expressions",question:"CLASSIFY THE EXPRESSIONS INTO THE CORRECT CATEGORY.",columns:["Expressing Lack of Understanding","Asking for Clarification","Giving Clarification"],tiles:[
+          {id:"t1",text:"Excuse me, Sir, but I don't understand.",correctColumn:"Expressing Lack of Understanding"},{id:"t2",text:"Sorry, I'm not sure I follow you.",correctColumn:"Expressing Lack of Understanding"},{id:"t3",text:"I am sorry I didn't quite follow you.",correctColumn:"Expressing Lack of Understanding"},{id:"t4",text:"What does that mean?",correctColumn:"Asking for Clarification"},{id:"t5",text:"Could you be more explicit?",correctColumn:"Asking for Clarification"},{id:"t6",text:"Did you mean…?",correctColumn:"Asking for Clarification"},{id:"t7",text:"What do you mean by…?",correctColumn:"Asking for Clarification"},{id:"t8",text:"It means…",correctColumn:"Giving Clarification"},{id:"t9",text:"Let me put it this way…",correctColumn:"Giving Clarification"},{id:"t10",text:"It refers to…",correctColumn:"Giving Clarification"}],explanation:"Each expression signals a different step of a clarification exchange: admitting you didn't understand, asking someone to clarify, or giving that clarification yourself.",points:10},
+        {type:"drag-order",category:"Order the Exchange",question:"DRAG THE LINES TO PUT THE EXCHANGE IN THE CORRECT ORDER.",lines:[{id:"c",text:"The part about the essay format confused me."},{id:"a",text:"Excuse me, sir, but I don't understand the homework instructions."},{id:"d",text:"It means you should write three paragraphs with an introduction, body, and conclusion."},{id:"b",text:"Of course, which part is unclear?"}],correctOrder:["a","b","c","d"],explanation:"The student first admits not understanding, the teacher asks which part is unclear, the student specifies the confusing part, and the teacher gives the clarification.",points:2},
+        {type:"matching",category:"Match the Sentence with its Function",question:"MATCH THE SENTENCE WITH ITS FUNCTION.",pairs:[{id:"1",sentence:"I don't get your point. Could you please be more specific?",correctFunction:"Asking for Clarification"},{id:"2",sentence:"What do you mean by 'deforestation'?",correctFunction:"Asking for Clarification"},{id:"3",sentence:"Could you please explain that again? I didn't follow you.",correctFunction:"Expressing Lack of Understanding"},{id:"4",sentence:"It means very easy.",correctFunction:"Giving Clarification"}],functionOptions:["Expressing Lack of Understanding","Asking for Clarification","Giving Clarification","Expressing Opinion"],explanation:"'Expressing Opinion' is the distractor here — none of the four sentences state a personal opinion; they each play a role in a clarification exchange instead.",points:2},
+        {type:"single-choice",category:"Choose the Right Response",question:"CHOOSE THE RIGHT RESPONSE.",task:"A: Sorry, I'm not sure I follow you.\nB: ______",choices:["It means you should never give up.","That's wonderful news!","It’s next Friday at noon."],correctAnswer:"It means you should never give up.",explanation:"A has expressed a lack of understanding, so B should give a clarification; only 'It means you should never give up' does that, unlike the other two which respond to good news or state agreement.",points:1},
+        {type:"single-choice",category:"Choose the Right Response",question:"CHOOSE THE RIGHT RESPONSE.",task:"A: Could you be more explicit about the deadline?\nB: ______",choices:["It's next Friday at noon.","I'm terribly sorry to hear that.","Congratulations on finishing early!"],correctAnswer:"It's next Friday at noon.",explanation:"A has asked for clarification about the deadline, so B should give it; only 'It refers to next Friday at noon' does that, unlike the other two which respond to bad news or good news.",points:1},
+        {type:"complete-exchange",category:"Complete the Exchange",question:"COMPLETE THE EXCHANGE APPROPRIATELY.",dialogue:[{speaker:"A",text:"The meeting has been rescheduled due to unforeseen circumstances."},{speaker:"B",text:"..."}],missingSpeaker:"B",choices:["Sorry, I'm not sure I follow you.","That's great news, congratulations!","I completely agree with you.","I'm terribly sorry for your loss."],correctAnswer:"Sorry, I'm not sure I follow you.",function:"Expressing Lack of Understanding",explanation:"B did not understand A's statement, so 'Sorry, I'm not sure I follow you' correctly expresses a lack of understanding.",points:1},
+        {type:"complete-exchange",category:"Complete the Exchange",question:"COMPLETE THE EXCHANGE APPROPRIATELY.",dialogue:[{speaker:"A",text:"You need to submit the report by EOD."},{speaker:"B",text:"..."}],missingSpeaker:"B",choices:["What do you mean by 'EOD'?","Congratulations on finishing early!","I'm sorry to hear that.","That's a great idea."],correctAnswer:"What do you mean by 'EOD'?",function:"Asking for Clarification",explanation:"B doesn't recognize the abbreviation, so 'What do you mean by \"EOD\"?' correctly asks for clarification.",points:1},
+        {type:"complete-exchange",category:"Complete the Exchange",question:"COMPLETE THE EXCHANGE APPROPRIATELY.",dialogue:[{speaker:"A",text:"Could you explain what 'renewable energy' means?"},{speaker:"B",text:"..."}],missingSpeaker:"B",choices:["It refers to energy from sources that don't run out, like solar and wind.","I'm afraid I disagree with you.","That's wonderful news!","I'm really sorry to hear that."],correctAnswer:"It refers to energy from sources that don't run out, like solar and wind.",function:"Giving Clarification",explanation:"A asked for clarification, so B should explain the term; only the definition of renewable energy does that.",points:1},
+        {type:"complete-exchange",category:"Complete the Exchange",question:"COMPLETE THE EXCHANGE APPROPRIATELY.",dialogue:[{speaker:"Teacher",text:"The quiz is just a piece of cake."},{speaker:"Student",text:"Sorry, sir! What do you mean by 'a piece of cake'?"},{speaker:"Teacher",text:"..."}],missingSpeaker:"Teacher",choices:["It means very easy.","I'm sorry to hear that.","Congratulations, well done!","Could you repeat the question?"],correctAnswer:"It means very easy.",function:"Giving Clarification",explanation:"The Teacher used an idiom the Student didn't understand, so the Teacher should clarify it; 'It means very easy' correctly explains 'a piece of cake'.",points:1}
+      ]
+    };
+
+    let currentQuestion=0,answers=[],attempts=Number(localStorage.getItem("english2bacAttempts")||0);
+    const timer={seconds:0,interval:null,start(){if(!this.interval)this.interval=setInterval(()=>{this.seconds++;updateStats()},1000)},pause(){clearInterval(this.interval);this.interval=null},reset(){this.pause();this.seconds=0},format(value=this.seconds){return String(Math.floor(value/60)).padStart(2,"0")+":"+String(value%60).padStart(2,"0")}};
+    const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
+    const result=(earned=0,locked=false,selection=null,placements=null,order=null,matches=null)=>({earned,locked,selection,placements,order,matches});
+    const getAnswer=i=>answers[i]||(answers[i]=result());
+    const totalScore=()=>answers.reduce((sum,item)=>sum+(item?.earned||0),0);
+    const answeredCount=()=>answers.filter(item=>item?.locked).length;
+    const correctWrong=()=>{let c=0,w=0;answers.forEach((a,i)=>{if(!a?.locked)return;const q=quizConfig.questions[i];if(q.type==="drag-classify"){c+=a.earned;w+=10-a.earned}else if(q.type==="drag-order"){c+=a.earned/.5;w+=4-a.earned/.5}else if(q.type==="matching"){c+=a.earned/.5;w+=4-a.earned/.5}else{a.earned?c++:w++}});return{c,w}};
+
+    /* Web Audio tones are generated after user interaction. */
+    function sound(kind){
+      if(!quizConfig.enableSounds)return;
+      try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();const tones={correct:[600,.12],wrong:[210,.16],complete:[760,.26],click:[430,.06]};osc.frequency.value=tones[kind][0];gain.gain.setValueAtTime(.06,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+tones[kind][1]);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+tones[kind][1])}catch(e){}
+    }
+
+    function feedback(ok,explanation,functionName=""){
+      return `<div class="feedback">${functionName?`<span class="function-tag">Function: ${functionName}</span>`:""}<strong>${ok?"Excellent! Great Job!":"Almost! Keep learning!"}</strong>${explanation}</div>`;
+    }
+    function layout(q,content){
+      const a=getAnswer(currentQuestion);
+      document.getElementById("quiz-view").innerHTML=`<section class="instruction">${q.question}</section><article class="task-card"><p class="category-title">${q.category}</p>${content}</article><nav class="nav-row" aria-label="Question navigation"><button class="nav-btn" id="previous-btn" ${currentQuestion===0?"disabled":""}>◀ Previous</button><span class="counter">${currentQuestion+1} / ${quizConfig.questions.length}</span><button class="nav-btn" id="next-btn" ${!a.locked?"disabled":""}>Next ▶</button></nav><section class="stats" aria-live="polite"><span id="correct-stat">✅ Correct: 0</span><span id="wrong-stat">❌ Wrong: 0</span><span id="remaining-stat">Remaining: 9</span><span id="score-stat">Score: 0.00 /20</span><span id="timer-stat">Timer 00:00</span></section>`;
+      document.getElementById("previous-btn").onclick=()=>{currentQuestion--;renderQuestion()};
+      document.getElementById("next-btn").onclick=()=>{if(currentQuestion===8)showResults();else{currentQuestion++;renderQuestion()}};
+      updateStats();
+    }
+    function updateStats(){
+      const cw=correctWrong(),done=answeredCount();
+      const c=document.getElementById("correct-stat");if(!c)return;
+      c.textContent=`✅ Correct: ${cw.c}`;document.getElementById("wrong-stat").textContent=`❌ Wrong: ${cw.w}`;document.getElementById("remaining-stat").textContent=`Remaining: ${9-done}`;document.getElementById("score-stat").textContent=`Score: ${totalScore().toFixed(2)} /20`;document.getElementById("timer-stat").textContent=`Timer ${timer.format()}`;
+    }
+
+    /* Type A: tiles use native dragging and a tap/keyboard pickup-place fallback. */
+    function renderClassify(q){
+      const a=getAnswer(currentQuestion);if(!a.placements)a.placements={};if(!q._displayOrder)q._displayOrder=shuffle(q.tiles);
+      let selected=null;
+      function tileElement(tile){
+        const placed=a.placements[tile.id],isCorrect=a.locked&&placed===tile.correctColumn;
+        const note=a.locked&&!isCorrect?`<div class="correct-note">Correct: ${tile.correctColumn}</div>`:"";
+        return `<div tabindex="0" draggable="${!a.locked}" class="tile ${a.locked?(isCorrect?"correct":"wrong"):""}" data-tile="${tile.id}">${tile.text}${note}</div>`;
+      }
+      function poolTiles(){return q._displayOrder.filter(t=>!a.placements[t.id]).map(tileElement).join("")}
+      function columnTiles(col){return q._displayOrder.filter(t=>a.placements[t.id]===col).map(tileElement).join("")}
+      const columns=q.columns.map(col=>`<div class="dropzone" tabindex="0" data-column="${col}"><h3>${col}</h3><div class="placed">${columnTiles(col)}</div></div>`).join("");
+      layout(q,`<div class="pool" id="tile-pool" data-column="pool">${poolTiles()}</div><div class="classify-grid">${columns}</div><div class="check-wrap"><button class="primary-btn" id="check-classify" ${Object.keys(a.placements).length!==10||a.locked?"disabled":""}>Check Answers</button></div>${a.locked?feedback(a.earned===10,q.explanation):""}`);
+      function place(tileId,column){if(a.locked)return;if(column==="pool")delete a.placements[tileId];else a.placements[tileId]=column;sound("click");renderClassify(q)}
+      document.querySelectorAll(".tile").forEach(el=>{
+        el.addEventListener("dragstart",e=>{e.dataTransfer.setData("tile",el.dataset.tile);sound("click")});
+        el.addEventListener("click",()=>{if(a.locked)return;selected=el.dataset.tile;document.querySelectorAll(".tile").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");sound("click")});
+        el.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&!a.locked){e.preventDefault();selected=el.dataset.tile;el.classList.add("selected");sound("click")}});
+      });
+      document.querySelectorAll("[data-column]").forEach(zone=>{
+        zone.addEventListener("dragover",e=>e.preventDefault());
+        zone.addEventListener("drop",e=>{e.preventDefault();place(e.dataTransfer.getData("tile"),zone.dataset.column)});
+        zone.addEventListener("click",()=>{if(selected){place(selected,zone.dataset.column);selected=null}});
+        zone.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&selected){e.preventDefault();place(selected,zone.dataset.column);selected=null}});
+      });
+      document.getElementById("check-classify").onclick=()=>{a.earned=q.tiles.filter(t=>a.placements[t.id]===t.correctColumn).length;a.locked=true;sound(a.earned===10?"correct":"wrong");renderClassify(q)};
+    }
+
+    /* Type B: list order is never reset; drag and ▲/▼ controls both reorder lines. */
+    function renderOrder(q){
+      const a=getAnswer(currentQuestion);if(!a.order)a.order=q.lines.map(line=>line.id);
+      const line=id=>q.lines.find(x=>x.id===id);const cards=a.order.map((id,index)=>{const correct=q.correctOrder[index]===id;return `<div class="order-card ${a.locked?(correct?"correct":"wrong"):""}" draggable="${!a.locked}" tabindex="0" data-order-id="${id}"><strong>${index+1}</strong><div>${line(id).text}${a.locked&&!correct?`<div class="correct-note">Correct position: ${q.correctOrder.indexOf(id)+1}</div>`:""}</div><div class="move-group"><button class="mini-btn" data-move="up" data-id="${id}" ${index===0||a.locked?"disabled":""}>▲</button><button class="mini-btn" data-move="down" data-id="${id}" ${index===3||a.locked?"disabled":""}>▼</button></div></div>`}).join("");
+      layout(q,`<div class="order-list" id="order-list">${cards}</div><div class="check-wrap"><button class="primary-btn" id="check-order" ${a.locked?"disabled":""}>Check Order</button></div>${a.locked?feedback(a.earned===2,q.explanation):""}`);
+      let dragged=null;
+      function move(id,direction){const index=a.order.indexOf(id),target=index+direction;if(target<0||target>=a.order.length||a.locked)return;[a.order[index],a.order[target]]=[a.order[target],a.order[index]];sound("click");renderOrder(q)}
+      document.querySelectorAll(".order-card").forEach(card=>{card.addEventListener("dragstart",()=>{dragged=card.dataset.orderId});card.addEventListener("dragover",e=>e.preventDefault());card.addEventListener("drop",e=>{e.preventDefault();const from=a.order.indexOf(dragged),to=a.order.indexOf(card.dataset.orderId);if(from!==to){a.order.splice(from,1);a.order.splice(to,0,dragged);sound("click");renderOrder(q)}});card.addEventListener("keydown",e=>{if(e.key==="ArrowUp"){e.preventDefault();move(card.dataset.orderId,-1)}if(e.key==="ArrowDown"){e.preventDefault();move(card.dataset.orderId,1)}})});
+      document.querySelectorAll("[data-move]").forEach(btn=>btn.onclick=()=>move(btn.dataset.id,btn.dataset.move==="up"?-1:1));
+      document.getElementById("check-order").onclick=()=>{a.earned=a.order.reduce((sum,id,index)=>sum+(q.correctOrder[index]===id?.5:0),0);a.locked=true;sound(a.earned===2?"correct":"wrong");renderOrder(q)};
+    }
+
+    /* Type C: each selector stores an independent sentence-to-function match. */
+    function renderMatching(q){
+      const a=getAnswer(currentQuestion);if(!a.matches)a.matches={};
+      const rows=q.pairs.map((pair,index)=>{const chosen=a.matches[pair.id]||"";const correct=chosen===pair.correctFunction;return `<div class="match-row ${a.locked?(correct?"correct":"wrong"):""}"><label for="match-${pair.id}">${index+1}. ${pair.sentence}${a.locked&&!correct?`<div class="correct-note">Correct: ${pair.correctFunction}</div>`:""}</label><select id="match-${pair.id}" data-pair="${pair.id}" ${a.locked?"disabled":""}><option value="">Select a function</option>${q.functionOptions.map(option=>`<option ${chosen===option?"selected":""}>${option}</option>`).join("")}</select></div>`}).join("");
+      layout(q,`<div class="match-list">${rows}</div><div class="check-wrap"><button class="primary-btn" id="check-matches" ${q.pairs.some(p=>!a.matches[p.id])||a.locked?"disabled":""}>Check Matches</button></div>${a.locked?feedback(a.earned===2,q.explanation):""}`);
+      document.querySelectorAll("select[data-pair]").forEach(select=>select.onchange=()=>{a.matches[select.dataset.pair]=select.value;sound("click");renderMatching(q)});
+      document.getElementById("check-matches").onclick=()=>{a.earned=q.pairs.filter(pair=>a.matches[pair.id]===pair.correctFunction).length*.5;a.locked=true;sound(a.earned===2?"correct":"wrong");renderMatching(q)};
+    }
+
+    /* Type D: cached randomized choices lock and grade immediately after one selection. */
+    function renderSingleChoice(q){
+      const a=getAnswer(currentQuestion);if(!q._displayOrder)q._displayOrder=shuffle(q.choices);
+      const choices=q._displayOrder.map((choice,index)=>{const selected=a.selection===choice;const status=a.locked?(choice===q.correctAnswer?"correct":selected?"wrong":""):(selected?"selected":"");return `<button class="choice ${status}" data-choice="${encodeURIComponent(choice)}" ${a.locked?"disabled":""}><strong>${index+1}.</strong> ${choice}</button>`}).join("");
+      layout(q,`<div class="task-text">${q.task}</div><div class="choice-list">${choices}</div>${a.locked?feedback(a.earned===1,q.explanation):""}`);
+      document.querySelectorAll("[data-choice]").forEach(btn=>btn.onclick=()=>{a.selection=decodeURIComponent(btn.dataset.choice);a.earned=a.selection===q.correctAnswer?1:0;a.locked=true;sound(a.earned?"correct":"wrong");renderSingleChoice(q)});
+      document.onkeydown=e=>{if(a.locked)return;const n=Number(e.key);if(n>0&&n<=q._displayOrder.length)document.querySelectorAll("[data-choice]")[n-1].click()};
+    }
+
+    /* Type E: selecting is blue only; checking grades, locks, then completes the missing bubble. */
+    function renderCompleteExchange(q){
+      const a=getAnswer(currentQuestion);if(!q._displayOrder)q._displayOrder=shuffle(q.choices);
+      const bubbles=q.dialogue.map(turn=>{const missing=turn.text==="...";const text=missing&&a.locked?(a.earned?a.selection:q.correctAnswer):turn.text;const side=turn.speaker===q.dialogue[0].speaker?"left":"right";return `<div class="bubble ${side} ${missing&&!a.locked?"missing":""}"><strong>${turn.speaker}:</strong> ${text}</div>`}).join("");
+      const choices=q._displayOrder.map((choice,index)=>{const selected=a.selection===choice;const status=a.locked?(choice===q.correctAnswer?"correct":selected?"wrong":""):(selected?"selected":"");return `<button class="choice ${status}" data-choice="${encodeURIComponent(choice)}" ${a.locked?"disabled":""}><strong>${index+1}.</strong> ${choice}</button>`}).join("");
+      layout(q,`<div class="chat">${bubbles}</div><div class="choice-list">${choices}</div><div class="check-wrap"><button class="primary-btn" id="check-complete" ${!a.selection||a.locked?"disabled":""}>Check Answer</button></div>${a.locked?feedback(a.earned===1,q.explanation,q.function):""}`);
+      document.querySelectorAll("[data-choice]").forEach(btn=>btn.onclick=()=>{a.selection=decodeURIComponent(btn.dataset.choice);sound("click");renderCompleteExchange(q)});
+      document.getElementById("check-complete").onclick=()=>{a.earned=a.selection===q.correctAnswer?1:0;a.locked=true;sound(a.earned?"correct":"wrong");renderCompleteExchange(q)};
+      document.onkeydown=e=>{if(a.locked)return;const n=Number(e.key);if(n>0&&n<=q._displayOrder.length)document.querySelectorAll("[data-choice]")[n-1].click();if(e.key==="Enter"&&a.selection)document.getElementById("check-complete").click()};
+    }
+
+    function renderQuestion(){
+      document.getElementById("result-view").classList.add("hidden");document.getElementById("review-view").classList.add("hidden");document.getElementById("quiz-view").classList.remove("hidden");
+      const q=quizConfig.questions[currentQuestion];
+      if(q.type==="drag-classify")renderClassify(q);else if(q.type==="drag-order")renderOrder(q);else if(q.type==="matching")renderMatching(q);else if(q.type==="single-choice")renderSingleChoice(q);else renderCompleteExchange(q);
+    }
+
+    function categoryScores(){
+      return [answers[0]?.earned||0,answers[1]?.earned||0,answers[2]?.earned||0,(answers[3]?.earned||0)+(answers[4]?.earned||0),(answers[5]?.earned||0)+(answers[6]?.earned||0)+(answers[7]?.earned||0)+(answers[8]?.earned||0)];
+    }
+    function remark(score){return score<10?"Fail":score<12?"Pass":score<14?"Fairly Good":score<16?"Good":score<18?"Very Good":"Excellent!"}
+    function confetti(){for(let i=0;i<70;i++){const c=document.createElement("i");c.className="confetti";c.style.left=Math.random()*100+"%";c.style.background=["#2563eb","#16a34a","#f59e0b","#dc2626"][i%4];c.style.setProperty("--x",(Math.random()-.5)*260+"px");c.style.animationDelay=Math.random()*1.4+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),5200)}}
+    function showResults(){
+      timer.pause();attempts++;const score=totalScore(),cw=correctWrong(),best=Math.max(Number(localStorage.getItem("english2bacBest")||0),score);localStorage.setItem("english2bacAttempts",attempts);localStorage.setItem("english2bacBest",best);localStorage.setItem("english2bacLast",score);localStorage.setItem("english2bacTime",timer.format());sound("complete");
+      document.getElementById("quiz-view").classList.add("hidden");const view=document.getElementById("result-view");view.classList.remove("hidden");const scores=categoryScores(),accuracy=((cw.c/(cw.c+cw.w))*100).toFixed(1);
+      view.innerHTML=`<section class="results"><div class="result-head"><p class="category-title">QUIZ / UNIT ${quizConfig.unit}</p><h1>${quizConfig.title}</h1><p>${quizConfig.lesson}</p><div class="score-badge">${score.toFixed(2)}<small>/20</small></div><div class="remark" id="remark-slot">Calculating…</div></div><div class="summary"><h2>Performance Summary</h2><div class="summary-grid"><div class="metric"><span>Final Score</span><strong>${score.toFixed(2)} /20</strong></div><div class="metric"><span>Correct Answers</span><strong>${cw.c}</strong></div><div class="metric"><span>Wrong Answers</span><strong>${cw.w}</strong></div><div class="metric"><span>Accuracy</span><strong>${accuracy}%</strong></div><div class="metric"><span>Time Taken</span><strong>${timer.format()}</strong></div><div class="metric"><span>Attempts / Best Score</span><strong>${attempts} / ${best.toFixed(2)}</strong></div></div><div class="breakdown"><span>Classify: ${scores[0].toFixed(2)}/10</span><span>Order the Exchange: ${scores[1].toFixed(2)}/2</span><span>Match the Function: ${scores[2].toFixed(2)}/2</span><span>Choose the Response: ${scores[3].toFixed(2)}/2</span><span>Complete the Exchange: ${scores[4].toFixed(2)}/4</span></div></div><div class="result-actions"><button class="action-btn" id="review-btn">Review My Answers</button><button class="action-btn secondary" id="print-btn">Print Results</button><button class="action-btn secondary" id="save-btn">Save Results</button><button class="action-btn secondary" id="restart-btn">Restart Quiz</button></div></section>`;
+      const all=["Fail","Pass","Fairly Good","Good","Very Good","Excellent!"],slot=document.getElementById("remark-slot");let tick=0,delay=90;function spin(){slot.textContent=all[tick++%all.length];if(tick<19){delay+=18;setTimeout(spin,delay)}else slot.textContent=remark(score)}spin();
+      if(score>=16)confetti();document.getElementById("review-btn").onclick=showReview;document.getElementById("print-btn").onclick=printResults;document.getElementById("save-btn").onclick=saveResults;document.getElementById("restart-btn").onclick=restartQuiz;
+    }
+    function showReview(){
+      document.getElementById("result-view").classList.add("hidden");const review=document.getElementById("review-view");review.classList.remove("hidden");
+      const groups={};quizConfig.questions.forEach((q,i)=>(groups[q.category]??=[]).push([q,i]));
+      review.innerHTML=Object.entries(groups).map(([category,items])=>`<section class="review-group"><h2>${category}</h2>${items.map(([q,i])=>reviewItem(q,getAnswer(i),i)).join("")}</section>`).join("")+`<div class="result-actions"><button class="action-btn secondary" id="back-results">Back to Results</button><button class="action-btn secondary" id="restart-review">Restart Quiz</button></div>`;
+      document.getElementById("back-results").onclick=showResults;document.getElementById("restart-review").onclick=restartQuiz;
+    }
+    function reviewItem(q,a,index){
+      if(q.type==="drag-classify")return `<article class="review-item"><strong>Question ${index+1}</strong>${q.tiles.map(t=>`<div class="${a.placements[t.id]===t.correctColumn?"review-good":"review-bad"}">“${t.text}” — Student: ${a.placements[t.id]||"Not placed"} | Correct: ${t.correctColumn}</div>`).join("")}<p>${q.explanation}</p></article>`;
+      if(q.type==="drag-order")return `<article class="review-item"><strong>Question ${index+1}</strong>${a.order.map((id,pos)=>`<div class="${q.correctOrder[pos]===id?"review-good":"review-bad"}">${q.lines.find(x=>x.id===id).text} — Student position: ${pos+1} | Correct position: ${q.correctOrder.indexOf(id)+1}</div>`).join("")}<p>${q.explanation}</p></article>`;
+      if(q.type==="matching")return `<article class="review-item"><strong>Question ${index+1}</strong>${q.pairs.map(p=>`<div class="${a.matches[p.id]===p.correctFunction?"review-good":"review-bad"}">${p.sentence}<br>Student: ${a.matches[p.id]||"No answer"} | Correct: ${p.correctFunction}</div>`).join("")}<p>${q.explanation}</p></article>`;
+      if(q.type==="single-choice")return `<article class="review-item ${a.earned?"review-good":"review-bad"}"><strong>Question ${index+1}</strong><div class="task-text">${q.task}</div><p>Student Answer: ${a.selection}</p><p>Correct Answer: ${q.correctAnswer}</p><p>${q.explanation}</p></article>`;
+      return `<article class="review-item ${a.earned?"review-good":"review-bad"}"><strong>Question ${index+1}</strong>${q.dialogue.map(t=>`<p><strong>${t.speaker}:</strong> ${t.text==="..."?a.selection:t.text}</p>`).join("")}<p>Student Response: ${a.selection}</p><p>Correct Response: ${q.correctAnswer}</p><span class="function-tag">Function: ${q.function}</span><p>${q.explanation}</p></article>`;
+    }
+    function reportText(){const s=categoryScores();return `English2BAC Quizzes\nUnit ${quizConfig.unit}: ${quizConfig.title}\n${quizConfig.lesson}\n\nFinal Score: ${totalScore().toFixed(2)} /20\nCorrect: ${correctWrong().c}\nWrong: ${correctWrong().w}\nTime Taken: ${timer.format()}\n\nClassify: ${s[0].toFixed(2)}/10\nOrder the Exchange: ${s[1].toFixed(2)}/2\nMatch the Function: ${s[2].toFixed(2)}/2\nChoose the Response: ${s[3].toFixed(2)}/2\nComplete the Exchange: ${s[4].toFixed(2)}/4`;}
+    function printResults(){const win=window.open("","_blank");if(!win)return;win.document.write(`<pre style="font:16px Poppins,sans-serif;white-space:pre-wrap;padding:30px">${reportText()}</pre>`);win.document.close();win.print()}
+    function saveResults(){const blob=new Blob([reportText()],{type:"text/plain"}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download="english2bac-quiz-results.txt";link.click();URL.revokeObjectURL(url)}
+    function restartQuiz(){answers=[];currentQuestion=0;quizConfig.questions.forEach(q=>delete q._displayOrder);timer.reset();timer.start();document.getElementById("result-view").classList.add("hidden");document.getElementById("review-view").classList.add("hidden");renderQuestion()}
+    timer.start();renderQuestion();
+  </script>
+ 
+</body></html>
