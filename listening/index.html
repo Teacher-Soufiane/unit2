@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en"><head><script>(function(){var ok=true;try{window.localStorage.getItem("__t")}catch(e){ok=false}
+if(!ok){var m={};try{Object.defineProperty(window,"localStorage",{configurable:true,value:{
+getItem:function(k){return Object.prototype.hasOwnProperty.call(m,k)?m[k]:null},
+setItem:function(k,v){m[k]=String(v)},removeItem:function(k){delete m[k]},clear:function(){m={}}}})}catch(e2){}}})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English2BAC Listening Quiz 1</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&amp;family=Poppins:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#1e3a5f;--blue:#2563eb;--pale:#eaf4ff;--green:#15803d;--red:#dc2626;--gray:#64748b}
+    *{box-sizing:border-box} body{margin:0;font-family:Poppins,Cairo,sans-serif;color:#172033;background:#f3f7fb}
+    .quiz-shell{width:100%;min-height:calc(100 * min(var(--vh, 1vh), 1vh))}
+    .quiz-header{background-color:#eaf4ff;padding:12px 18px;display:grid;grid-template-columns:1fr minmax(180px,2fr) 1fr;align-items:center;gap:12px}
+    .header-teacher-img,.header-logo-img{height:64px;width:auto;max-width:none;object-fit:contain}.header-logo-img{justify-self:end}.header-title{text-align:center;line-height:1.2}.title-line1{font-family:Poppins,sans-serif;font-size:26px;font-weight:800;color:#1e3a5f}.title-line2{font-family:Poppins,sans-serif;font-size:18px;font-weight:400;color:#2563eb}.title-line3{font-family:Poppins,sans-serif;font-size:14px;font-weight:400;color:#64748b}
+    .info-bar{background:#1e3a5f;color:#fff;padding:10px 18px;display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;font-size:12px;font-weight:700;text-align:center}.info-bar span:first-child{text-align:left}.info-bar span:last-child{text-align:right}
+    .main-area{width:100%;max-width:1080px;margin:auto;padding:20px 16px 34px}.phase{background:#dbeafe;border-left:6px solid var(--blue);color:var(--navy);padding:12px 16px;font-weight:800;margin-bottom:14px;border-radius:8px}.card{background:#fff;border-radius:16px;box-shadow:0 8px 24px #1e3a5f16;padding:18px}.instruction{background:#1e3a5f;color:#fff;padding:15px 18px;border-radius:10px;font-weight:800;margin-bottom:14px}.task{font-size:18px;font-weight:600;line-height:1.55;background:#f8fafc;border-left:4px solid var(--blue);padding:16px;margin-bottom:16px;border-radius:8px}
+    .choices{display:grid;gap:10px}.choice,.tile{width:100%;text-align:left;padding:14px 16px;border:2px solid #dbe4ef;border-radius:10px;background:#fff;cursor:pointer;font:inherit;transition:.18s}.choice:hover,.tile:hover{border-color:var(--blue);background:#eff6ff}.choice:focus-visible,.tile:focus-visible,button:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}.selected{border-color:var(--blue)!important;background:#dbeafe!important}.correct{border-color:var(--green)!important;background:#dcfce7!important;color:#14532d!important}.wrong{border-color:var(--red)!important;background:#fee2e2!important;color:#7f1d1d!important}.muted-tile{background:#f1f5f9;color:#64748b}.explanation{margin-top:15px;padding:13px 15px;border-radius:9px;background:#eff6ff;color:#1e3a5f;line-height:1.5}.hidden{display:none!important}
+    .audio-panel{margin-bottom:14px;background:#fff;border-radius:16px;padding:14px;box-shadow:0 8px 24px #1e3a5f16}.avatars{display:flex;justify-content:center;gap:28px;margin-bottom:10px}.avatar{text-align:center;font-size:13px;font-weight:700}.avatar b{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#dbeafe;font-size:28px;margin:auto auto 4px}.audio-controls{display:flex;justify-content:center;gap:12px}.audio-controls button,.nav button,.action-button,.check-button{border:0;border-radius:10px;padding:10px 15px;background:var(--navy);color:#fff;font:inherit;font-weight:700;cursor:pointer}.audio-controls button:disabled{background:#94a3b8;cursor:not-allowed}.progress-track{height:6px;background:#dbe4ef;border-radius:20px;overflow:hidden;margin-top:12px}.progress{height:100%;width:0;background:var(--blue);transition:width .2s}.audio-error{color:#475569;text-align:center;margin:8px 0 0}
+    .matching-layout{display:grid;gap:15px}.match-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,1fr);gap:10px;align-items:center;padding:10px;border-bottom:1px solid #e2e8f0}.drop-slot{min-height:50px;border:2px dashed #94a3b8;border-radius:10px;padding:5px;background:#f8fafc}.chip-tray{display:flex;flex-wrap:wrap;gap:9px;padding:12px;background:#eff6ff;border-radius:10px}.chip{touch-action:none;cursor:grab;user-select:none;border:1px solid #93c5fd;background:#fff;border-radius:9px;padding:10px;font-size:14px;box-shadow:0 2px 5px #1e3a5f12}.chip.dragging{position:fixed;z-index:1000;pointer-events:none;opacity:.9;cursor:grabbing}.answer-chip{display:block}.correct-reveal{display:block;font-size:12px;color:var(--green);font-weight:700;margin-top:4px}.check-button{margin-top:14px;background:var(--blue)}.check-button:disabled{opacity:.5;cursor:not-allowed}
+    .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.tile{text-align:center}.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:18px}.nav button:last-child{justify-self:end}.nav button:disabled{opacity:.45;cursor:not-allowed}.counter{font-weight:800;color:var(--navy)}.stats{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:14px 4px;color:#334155;font-size:14px;font-weight:700}.stats b{color:var(--navy)}
+    .result{text-align:center}.score-badge{width:170px;height:170px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:18px auto;background:#1e3a5f;color:white;border:10px solid #bfdbfe;font-size:29px;font-weight:800}.remark{font-size:28px;font-weight:800;color:var(--blue);min-height:44px}.summary{max-width:720px;margin:20px auto;text-align:left;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.summary div,.breakdown li{background:#f8fafc;padding:11px;border-radius:8px}.breakdown{text-align:left;list-style:none;padding:0;max-width:720px;margin:16px auto}.result-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}.accordion{max-width:800px;margin:20px auto;text-align:left;border:1px solid #cbd5e1;border-radius:10px;overflow:hidden}.accordion summary{padding:13px;font-weight:800;cursor:pointer;background:#f8fafc}.transcript{padding:13px;line-height:1.65}.transcript p{margin:0 0 8px}.review-item{margin:12px 0;padding:15px;border-radius:10px;background:#fff;box-shadow:0 4px 14px #1e3a5f12;text-align:left}.review-title{font-size:14px;color:var(--blue);font-weight:800}.review-item h3{margin:6px 0;font-size:16px}.review-answer{padding:8px;border-radius:7px;margin-top:6px}.confetti{position:fixed;top:-12px;width:9px;height:15px;z-index:2000;animation:fall 3.5s linear forwards}@keyframes fall{to{transform:translateY(calc(100 * min(var(--vh, 1vh), 1vh))) rotate(720deg);opacity:0}}@media(min-width:600px){.header-teacher-img,.header-logo-img{height:80px}}@media(min-width:1024px){.header-teacher-img,.header-logo-img{height:96px}}@media(max-width:640px){.header-teacher-img,.header-logo-img{height:45px}.quiz-header{padding:8px 12px}.title-line1{font-size:18px}.title-line2{font-size:12px}.title-line3{font-size:10px}.info-bar{grid-template-columns:1fr;font-size:10px}.info-bar span,.info-bar span:first-child,.info-bar span:last-child{text-align:center}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.match-row{grid-template-columns:1fr}.stats{gap:9px;font-size:12px}.summary{grid-template-columns:1fr}}@media(max-width:400px){.main-area{padding:13px 10px}.match-row{padding:8px}.chip{width:100%;text-align:center}.audio-controls button{padding:9px 10px;font-size:13px}}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  
+  
+ <style>[hidden]{display:none!important}</style></head>
+ <body data-template-id="__page-root">
+  <div class="quiz-shell">
+   <header class="quiz-header"><img data-template-id="teacher-image" class="canva-image header-teacher-img" loading="lazy" id="teacher-image" src="teacher.png" alt="Teacher Soufiane">
+    <div class="header-title">
+     <div class="title-line1">
+      English2BAC Quizzes
+     </div>
+     <div class="title-line2">
+      Learn • Practice • Succeed
+     </div>
+     <div class="title-line3">
+      with Teacher.Soufiane
+     </div>
+    </div><img data-template-id="logo-image" class="canva-image header-logo-img" loading="lazy" id="logo-image" src="logo.png" alt="Level-UP 2BAC">
+   </header>
+   <section class="info-bar" aria-label="Quiz information"><span data-template-id="unit-label" class="canva-text" id="unit-label">UNIT: 2</span> <span data-template-id="title-label" class="canva-text" id="title-label">EXPRESSING LACK OF UNDERSTANDING &amp; ASKING FOR CLARIFICATION</span> <span data-template-id="lesson-label" class="canva-text" id="lesson-label">LISTENING QUIZ 1</span>
+   </section>
+   <main class="main-area">
+    <section id="quizView">
+     <div id="phaseBanner" class="phase" aria-live="polite"></div>
+     <section id="audioPanel" class="audio-panel hidden" aria-label="Conversation audio player">
+      <div class="avatars">
+       <div class="avatar">
+        <b>👨</b>Youssef
+       </div>
+       <div class="avatar">
+        <b>👩</b>Sara
+       </div>
+      </div>
+      <div class="audio-controls" id="audioControls"><button id="backAudio" type="button" aria-label="Skip back 10 seconds">◀◀ 10</button> <button id="playAudio" type="button" aria-label="Play conversation">▶</button> <button id="forwardAudio" type="button" aria-label="Skip forward 10 seconds">10 ▶▶</button>
+      </div>
+      <div class="progress-track">
+       <div id="audioProgress" class="progress"></div>
+      </div>
+      <p id="audioError" class="audio-error hidden">Audio couldn't be loaded — ask your teacher for the printed transcript.</p>
+     </section>
+     <audio id="dialogueAudio" src="https://raw.githubusercontent.com/Teacher-Soufiane/unit2-listening/f1084379f5b10b44a3a7e4e3b62ad66e94f671c6/Audio1_Quiz2_Final.mp3" preload="auto" style="display:none"></audio>
+     <article class="card">
+      <div id="instructionBox" class="instruction"></div>
+      <div id="taskText" class="task"></div>
+      <div id="answerArea"></div>
+      <div id="explanationArea"></div>
+      <div class="nav"><button id="previousButton" type="button">◀ Previous</button>
+       <div id="counter" class="counter" aria-live="polite"></div><button id="nextButton" type="button">Next ▶</button>
+      </div>
+      <div class="stats" aria-live="polite"><span>✅ Correct: <b id="correctCount">0</b></span> <span>❌ Wrong: <b id="wrongCount">0</b></span> <span>Remaining: <b id="remainingCount">0</b></span> <span>Score: <b id="scoreCount">0.00 /33</b></span> <span>Timer <b id="timerCount">00:00</b></span>
+      </div>
+     </article>
+    </section>
+    <section id="resultView" class="card result hidden"></section>
+    <section id="reviewView" class="hidden"></section>
+   </main>
+  </div>
+  <script>
+    const quizConfig={totalPoints:33,randomizeChoices:true,audioFileUrl:"https://raw.githubusercontent.com/Teacher-Soufiane/unit2-listening/f1084379f5b10b44a3a7e4e3b62ad66e94f671c6/Audio1_Quiz2_Final.mp3",audioTranscript:[
+      ["Youssef","So, the project focuses on the impact of urbanization on local ecosystems."],["Sara","Sorry, could you explain what you mean by 'the growth of cities'?"],["Youssef","Sure — it means cities becoming larger as populations increase and more buildings, roads, and facilities are constructed."],["Sara","Okay, that makes sense. Excuse me, could you say that again — how long should the presentation be?"],["Youssef","It should be about ten minutes."],["Sara","I'm sorry, I didn't catch that. Did you say ten minutes?"],["Youssef","Yes, ten minutes. And groups should be 3 or 4 students."],["Sara","Sorry, could you give me an example of what to include?"],["Youssef","We should discuss both positive and negative effects of urbanization on local ecosystems."],["Sara","So, I'm confused now. Could you clarify that?"],["Youssef","Of course — we need to show both sides: the benefits of city growth and the environmental costs."],["Sara","Perfect. Now everything is clear."]
+    ]};
+
+    const Q=(taskLabel,category,question,task,choices,correctAnswer,explanation,points=1)=>({type:"single-choice",taskLabel,category,question,task,choices,correctAnswer,explanation,points});
+    const questions=[
+      Q("Task 1 — Choose the Appropriate Response","Pre-Listening","CHOOSE THE APPROPRIATE RESPONSE.","Your classmate explains something, but you do not understand what she means.",["That's a good idea.","Could you explain what you mean?","I completely agree.","That's exactly right."],"Could you explain what you mean?","When you don't understand someone's meaning, the natural response is to directly ask them to explain."),
+      Q("Task 1 — Choose the Appropriate Response","Pre-Listening","CHOOSE THE APPROPRIATE RESPONSE.","You did not hear what someone said.",["Could you say that again?","What do you think?","That's interesting.","I understand now."],"Could you say that again?","When you didn't hear something, you ask the person to repeat it."),
+      Q("Task 1 — Choose the Appropriate Response","Pre-Listening","CHOOSE THE APPROPRIATE RESPONSE.","You understand the general idea but need a concrete example.",["Could you repeat that?","Are you sure?","Could you give me an example?","I don't agree."],"Could you give me an example?","Asking for an example is the appropriate way to get a concrete illustration of a general idea."),
+      Q("Task 1 — Choose the Appropriate Response","Pre-Listening","CHOOSE THE APPROPRIATE RESPONSE.","You want someone to make an unclear point more understandable.",["Could you clarify that?","That's a good point.","I completely understand.","What happened?"],"Could you clarify that?","Asking someone to clarify is the direct way to request a clearer explanation of an unclear point."),
+      {type:"matching",taskLabel:"Task 2 — Match the Situation with the Expression",category:"Pre-Listening",question:"MATCH THE SITUATION WITH THE EXPRESSION.",task:"Drag each expression to the situation it matches.",rows:[["r1","You didn't hear something clearly."],["r2","You don't understand the meaning of an expression."],["r3","You need an example to understand an idea."],["r4","You want someone to explain an unclear point."]],chips:[["c1","Could you say that again?","r1"],["c2","What do you mean by...?","r2"],["c3","Could you give me an example?","r3"],["c4","Could you clarify that?","r4"]],explanation:"Each expression maps to a specific communicative need: repetition, meaning, examples, or clarification.",points:4},
+      {type:"multi-select-exact",taskLabel:"Task 3 — Predict the Listening",category:"Pre-Listening",question:"PREDICT THE LISTENING.",task:"You are going to hear two students discussing a school project. Which topics are you most likely to hear? Select THREE.",options:["Comedy festival","Presentation requirements","A football match","Group size","Local ecosystems","A family holiday"],correctOptions:["Presentation requirements","Group size","Local ecosystems"],explanation:"The conversation focuses specifically on presentation requirements, group size, and local ecosystems.",points:3},
+      Q("Task 4 — Choose the Best Summary","While-Listening: First Listening — General Understanding","CHOOSE THE BEST SUMMARY.","What is the conversation mainly about?",["Two students are preparing for a science examination.","Two students are discussing a science project and clarifying unclear instructions.","Two students are discussing the effects of social media on teenagers.","Two students are planning a school trip to a natural area."],"Two students are discussing a science project and clarifying unclear instructions.","Sara repeatedly asks Youssef to clarify, repeat, or explain project instructions."),
+      Q("Task 5 — Identify the Main Problem","While-Listening: First Listening — General Understanding","IDENTIFY THE MAIN PROBLEM.","Why does Sara ask Youssef several questions?",["She has forgotten when the science exam will take place.","She does not understand several parts of the project instructions.","She wants Youssef to complete the project for her.","She disagrees with the teacher's decision about urbanization."],"She does not understand several parts of the project instructions.","Sara's questions are clarification requests about unclear project instructions."),
+      Q("Task 6 — Complete the Project Details","While-Listening: Second Listening — Specific Information","COMPLETE THE PROJECT DETAILS.","Presentation length:",["5 minutes","10 minutes","15 minutes","20 minutes"],"10 minutes","Youssef confirms the presentation should be about ten minutes."),
+      Q("Task 6 — Complete the Project Details","While-Listening: Second Listening — Specific Information","COMPLETE THE PROJECT DETAILS.","Group size:",["Exactly 2 students","Exactly 3 students","3 or 4 students","4 or 5 students"],"3 or 4 students","Youssef says groups should be 3 or 4 students."),
+      Q("Task 6 — Complete the Project Details","While-Listening: Second Listening — Specific Information","COMPLETE THE PROJECT DETAILS.","The presentation should discuss:",["Only negative effects","Only positive effects","Both positive and negative effects","The history of urbanization"],"Both positive and negative effects","Youssef says they need to show both sides."),
+      Q("Task 7 — Understand the Explanation","While-Listening: Second Listening — Specific Information","UNDERSTAND THE EXPLANATION.","What does Youssef mean by \"the growth of cities\"?",["Cities becoming larger as populations increase and more buildings, roads, and facilities are constructed.","Cities becoming smaller because people move to rural areas.","Cities becoming cleaner because new environmental laws are introduced.","Cities becoming older as historical buildings are preserved."],"Cities becoming larger as populations increase and more buildings, roads, and facilities are constructed.","Youssef explicitly defines it this way when Sara asks him to explain."),
+      Q("Task 8 — Listen for a Repeated Detail","While-Listening: Second Listening — Specific Information","LISTEN FOR A REPEATED DETAIL.","Sara says: \"I'm sorry, I didn't catch that. Did you say ten minutes?\" What information is she asking Youssef to repeat?",["The number of students in each group","The meaning of local ecosystems","The length of the presentation","The number of examples required"],"The length of the presentation","She is confirming the presentation length."),
+      Q("Task 9 — Identify the Purpose","While-Listening: Third Listening — Understanding the Function","IDENTIFY THE PURPOSE.","What is the communicative purpose of: \"Sorry, could you explain what you mean by 'the growth of cities'?\"",["Expressing agreement","Asking for clarification","Giving an opinion","Making a complaint"],"Asking for clarification","This is a direct request to clarify the meaning of a phrase."),
+      Q("Task 10 — Identify the Purpose","While-Listening: Third Listening — Understanding the Function","IDENTIFY THE PURPOSE.","What is the communicative purpose of: \"Excuse me, could you say that again?\"",["Asking someone to repeat information","Asking someone to give advice","Expressing disagreement","Expressing certainty"],"Asking someone to repeat information","This phrase is a direct request for repetition."),
+      Q("Task 11 — Identify the Purpose","While-Listening: Third Listening — Understanding the Function","IDENTIFY THE PURPOSE.","What is the communicative purpose of: \"Sorry, could you give me an example?\"",["Asking for repetition","Asking for an example","Expressing an opinion","Apologizing for being late"],"Asking for an example","This phrase directly requests a concrete example."),
+      Q("Task 12 — Interpret the Meaning","While-Listening: Third Listening — Understanding the Function","INTERPRET THE MEANING.","Sara says: \"So, I'm confused now. Could you clarify that?\" What does Sara want Youssef to do?",["Give her more information about the teacher.","Explain the point more clearly.","Change the topic completely.","Tell her when the project is due."],"Explain the point more clearly.","Sara is confused and explicitly asks Youssef to explain more clearly."),
+      Q("Task 13 — Understand the Speaker's Difficulty","While-Listening: Third Listening — Understanding the Function","UNDERSTAND THE SPEAKER'S DIFFICULTY.","When Sara says: \"I'm sorry, I didn't catch that.\" What is she communicating?",["She disagrees with what Youssef said.","She has heard the information but rejects it.","She did not hear or understand what was just said clearly.","She wants to end the conversation."],"She did not hear or understand what was just said clearly.","\"I didn't catch that\" means she did not hear or understand clearly."),
+      Q("Task 14 — Choose the Most Appropriate Expression","Post-Listening","CHOOSE THE MOST APPROPRIATE EXPRESSION.","Imagine someone says: \"The project focuses on the impact of urbanization on local ecosystems.\" You do not understand the meaning of \"local ecosystems.\" Which response is most appropriate?",["Could you give me some advice?","What do you mean by \"local ecosystems\"?","I completely agree with you.","That's a very interesting opinion."],"What do you mean by \"local ecosystems\"?","Directly asking what an unclear term means is appropriate."),
+      Q("Task 15 — Choose the Best Clarification Strategy","Post-Listening","CHOOSE THE BEST CLARIFICATION STRATEGY.","You hear someone say: \"Students should submit their work electronically.\" You understand the general idea, but you are not sure what \"electronically\" means. What should you say?",["Could you give me an example of what you mean by \"electronically\"?","Could you repeat the entire conversation from the beginning?","I don't agree with this requirement.","That's exactly what I wanted to hear."],"Could you give me an example of what you mean by \"electronically\"?","Asking for a concrete example is the best strategy."),
+      Q("Task 16 — Choose the Most Polite Expression","Post-Listening","CHOOSE THE MOST POLITE EXPRESSION.","Which expression is the most appropriate way to ask someone to repeat information?",["Repeat that.","Say it again.","Could you say that again, please?","You need to say that again."],"Could you say that again, please?","This phrasing uses a polite modal question with \"please.\""),
+      {type:"matching",taskLabel:"Task 17 — Identify the Function",category:"Post-Listening",question:"IDENTIFY THE FUNCTION.",task:"Drag each function to the expression it matches.",rows:[["r1","\"Could you say that again?\""],["r2","\"What do you mean by...?\""],["r3","\"Could you clarify that?\""],["r4","\"Could you give me an example?\""]],chips:[["c1","Asking someone to repeat","r1"],["c2","Asking about the meaning of something","r2"],["c3","Asking for clarification","r3"],["c4","Asking for an example","r4"]],explanation:"Each expression serves a distinct communicative function.",points:4},
+      Q("Task 18 — Listening to the Final Understanding","Post-Listening","LISTENING TO THE FINAL UNDERSTANDING.","At the end of the conversation, Sara says: \"Perfect. Now everything is clear.\" What does this show?",["She has decided not to do the project.","She has finally understood the main requirements.","She disagrees with Youssef's explanation.","She wants the teacher to explain everything again."],"She has finally understood the main requirements.","\"Now everything is clear\" signals that her confusion has been resolved."),
+      Q("Task 19 — Reconstruct the Information","Post-Listening","RECONSTRUCT THE INFORMATION.","Listen again to the final part of the conversation. Which combination correctly summarizes the project requirements?",["Groups of 2, a five-minute speech, only negative effects","Groups of 3 or 4, a ten-minute presentation, both positive and negative effects","Groups of 3, a fifteen-minute presentation, only positive effects","Groups of 4 or 5, a ten-minute essay, environmental vocabulary only"],"Groups of 3 or 4, a ten-minute presentation, both positive and negative effects","This matches group size, length, and content."),
+      Q("Task 20 — Overall Listening Check","Post-Listening","OVERALL LISTENING CHECK.","Which sequence best represents what happens in the conversation?",["Sara understands everything → Youssef asks questions → they change the project topic.","Youssef explains the project → Sara identifies unclear points → Youssef clarifies them → Sara confirms her understanding.","Sara explains the project → Youssef disagrees → Sara changes the requirements.","Youssef gives the final presentation → Sara evaluates it → they submit the project."],"Youssef explains the project → Sara identifies unclear points → Youssef clarifies them → Sara confirms her understanding.","This matches the actual conversation flow.")
+    ];
+
+    let current=0,answers=Array(questions.length).fill(null),timerSeconds=0,timerId=null,resultTime=0;
+    const $=id=>document.getElementById(id);
+    const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+    const phaseFor=i=>i<6?"PRE-LISTENING":i<8?"WHILE-LISTENING — First Listening: General Understanding":i<13?"WHILE-LISTENING — Second Listening: Specific Information":i<18?"WHILE-LISTENING — Third Listening: Understanding the Function":"POST-LISTENING";
+
+    /* Independent timer module */
+    const Timer={start(){if(!timerId)timerId=setInterval(()=>{timerSeconds++;$("timerCount").textContent=this.format(timerSeconds)},1000)},pause(){clearInterval(timerId);timerId=null},reset(){this.pause();timerSeconds=0;$("timerCount").textContent="00:00"},format:s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
+
+    /* Native audio player persists after listening begins. */
+    const audio=$("dialogueAudio"),audioPanel=$("audioPanel"),playButton=$("playAudio");
+    let audioAvailable=true;
+    function audioToggle(){
+      if(audio.paused){
+        const promise=audio.play(); /* Must run synchronously inside this click handler. */
+        promise.then(()=>{playButton.textContent="⏸"}).catch(error=>{console.error(error);playButton.textContent="▶"});
+      }else audio.pause();
+    }
+    function skipBack(){if(Number.isNaN(audio.duration)){audio.addEventListener("loadedmetadata",skipBack,{once:true});return}audio.currentTime=Math.max(0,audio.currentTime-10)}
+    function skipForward(){if(Number.isNaN(audio.duration)){audio.addEventListener("loadedmetadata",skipForward,{once:true});return}audio.currentTime=Math.min(audio.duration,audio.currentTime+10)}
+    $("backAudio").onclick=skipBack;$("forwardAudio").onclick=skipForward;playButton.onclick=audioToggle;
+    audio.addEventListener("play",()=>playButton.textContent="⏸");audio.addEventListener("pause",()=>playButton.textContent="▶");
+    audio.addEventListener("timeupdate",()=>{$("audioProgress").style.width=audio.duration?(audio.currentTime/audio.duration*100)+"%":"0%"});
+    audio.addEventListener("error",()=>{audioAvailable=false;["backAudio","playAudio","forwardAudio"].forEach(id=>$(id).disabled=true);$("audioError").classList.remove("hidden")});
+
+    function playTone(ok){if(audioAvailable&&!audio.paused)return;try{const ctx=new (window.AudioContext||window.webkitAudioContext)(),o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=ok?620:220;g.gain.setValueAtTime(.045,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.18);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.18)}catch(e){}}
+    function phaseAndAudio(){const listening=current>=6;$("phaseBanner").textContent=phaseFor(current);audioPanel.classList.toggle("hidden",!listening);if(listening&&audio.readyState===0)audio.load()}
+    function score(){return answers.reduce((s,a)=>s+(a?a.points:0),0)}
+    function stats(){const done=answers.filter(Boolean),correct=done.filter(a=>a.points>0).length,wrong=done.length-correct;$("correctCount").textContent=correct;$("wrongCount").textContent=wrong;$("remainingCount").textContent=questions.length-done.length;$("scoreCount").textContent=score().toFixed(2)+" /33"}
+    function canNext(){return!!answers[current]}
+    function render(){
+      phaseAndAudio();const q=questions[current];$("instructionBox").textContent=q.question;$("taskText").textContent=q.task;$("answerArea").innerHTML="";$("explanationArea").innerHTML="";
+      $("counter").textContent=(current+1)+" / "+questions.length;$("previousButton").disabled=current===0;$("nextButton").disabled=!canNext();$("nextButton").textContent=current===questions.length-1?"Finish ▶":"Next ▶";
+      if(q.type==="single-choice")renderSingle(q);if(q.type==="matching")renderMatching(q);if(q.type==="multi-select-exact")renderMulti(q);
+      if(answers[current])showExplanation(q);stats();
+    }
+    function showExplanation(q){$("explanationArea").innerHTML='<div class="explanation"><strong>Explanation:</strong> '+q.explanation+"</div>"}
+    function answer(points,data){answers[current]={points,data};playTone(points>0);$("nextButton").disabled=false;showExplanation(questions[current]);stats()}
+    function renderSingle(q){
+      const saved=answers[current],box=$("answerArea"),list=saved?saved.data.order:shuffle(q.choices);
+      list.forEach((choice,i)=>{const b=document.createElement("button");b.className="choice";b.textContent=choice;b.dataset.index=i;b.disabled=!!saved;if(saved){if(choice===q.correctAnswer)b.classList.add("correct");if(choice===saved.data.choice&&choice!==q.correctAnswer)b.classList.add("wrong")}b.onclick=()=>{if(answers[current])return;answer(choice===q.correctAnswer?q.points:0,{choice,order:list});render()};box.appendChild(b)})
+    }
+    /* TYPE C Pointer Events drag-and-drop then grade flow. */
+    function renderMatching(q){
+      const saved=answers[current],box=$("answerArea"),layout=document.createElement("div");layout.className="matching-layout";const slots={};
+      q.rows.forEach(([id,text])=>{const row=document.createElement("div");row.className="match-row";row.innerHTML="<div>"+text+"</div>";const slot=document.createElement("div");slot.className="drop-slot";slot.dataset.row=id;row.appendChild(slot);layout.appendChild(row);slots[id]=slot});
+      const tray=document.createElement("div");tray.className="chip-tray";layout.appendChild(tray);box.appendChild(layout);
+      const order=saved?saved.data.order:shuffle(q.chips);let placements=saved?saved.data.placements:{};
+      function makeChip(chip){
+        const el=document.createElement("div");el.className="chip";el.textContent=chip[1];el.dataset.chip=chip[0];if(saved){const row=Object.keys(placements).find(r=>placements[r]===chip[0]);const correct=chip[2]===row;el.classList.add(correct?"correct":"wrong");if(row)slots[row].appendChild(el);return}
+        let startX,startY;
+        el.addEventListener("pointerdown",e=>{e.preventDefault();startX=e.clientX;startY=e.clientY;el.setPointerCapture(e.pointerId);el.classList.add("dragging");el.style.left=(e.clientX-el.offsetWidth/2)+"px";el.style.top=(e.clientY-el.offsetHeight/2)+"px"});
+        el.addEventListener("pointermove",e=>{if(!el.classList.contains("dragging"))return;el.style.left=(e.clientX-el.offsetWidth/2)+"px";el.style.top=(e.clientY-el.offsetHeight/2)+"px"});
+        const drop=e=>{if(!el.classList.contains("dragging"))return;el.classList.remove("dragging");el.style.left="";el.style.top="";const target=document.elementFromPoint(e.clientX,e.clientY)?.closest(".drop-slot");if(target){const old=target.querySelector(".chip");if(old)tray.appendChild(old);target.appendChild(el);placements[target.dataset.row]=chip[0];Object.keys(placements).forEach(k=>{if(k!==target.dataset.row&&placements[k]===chip[0])delete placements[k]});playTone(true)}else tray.appendChild(el);check.disabled=Object.keys(placements).length!==4};
+        el.addEventListener("pointerup",drop);el.addEventListener("pointercancel",drop);return el
+      }
+      order.forEach(c=>{const el=makeChip(c);if(!saved&&!Object.values(placements).includes(c[0]))tray.appendChild(el)});
+      if(saved){q.rows.forEach(([id])=>{const correct=q.chips.find(c=>c[2]===id);const placed=q.chips.find(c=>placements[id]===c[0]);if(!placed||placed[0]!==correct[0]){const r=document.createElement("span");r.className="correct-reveal";r.textContent="Correct: "+correct[1];slots[id].appendChild(r)}});return}
+      const check=document.createElement("button");check.className="check-button";check.textContent="Check Answers";check.disabled=Object.keys(placements).length!==4;check.onclick=()=>{let p=0;q.rows.forEach(([id])=>{const chip=q.chips.find(c=>c[0]===placements[id]);if(chip&&chip[2]===id)p++});answer(p,{placements:{...placements},order});render()};box.appendChild(check);
+    }
+    /* TYPE D exact-three selection/evaluation logic. */
+    function renderMulti(q){
+      const saved=answers[current],box=$("answerArea"),idx=current;box.innerHTML="";
+      const grid=document.createElement("div");grid.className="tiles";
+      if(!q._order)q._order=shuffle(q.options);
+      if(!q._selected)q._selected=[];
+      const order=saved?saved.data.order:q._order;const selected=saved?[...saved.data.selected]:q._selected;
+      order.forEach((text,i)=>{const b=document.createElement("button");b.className="tile";b.textContent=text;b.dataset.index=i;b.disabled=!!saved;
+        if(saved){const right=q.correctOptions.includes(text),picked=selected.includes(text);if(right)b.classList.add("correct");else if(picked)b.classList.add("wrong");else b.classList.add("muted-tile")}
+        else{b.classList.toggle("selected",selected.includes(text));b.onclick=()=>{
+          clearTimeout(window.__multiTimer);
+          const at=selected.indexOf(text);if(at>-1)selected.splice(at,1);else if(selected.length<3)selected.push(text);
+          playTone(true);renderMulti(q);
+          if(selected.length===3){window.__multiTimer=setTimeout(()=>{if(current!==idx||answers[idx])return;const sel=[...selected],ok=sel.every(x=>q.correctOptions.includes(x));const ord=q._order;q._selected=null;q._order=null;answer(ok?q.points:0,{selected:sel,order:ord});render()},500)}
+        }}
+        grid.appendChild(b)});
+      box.appendChild(grid)
+    }
+    function transcript(){return '<details class="accordion"><summary>Show Transcript</summary><div class="transcript">'+quizConfig.audioTranscript.map(x=>"<p><strong>"+x[0]+":</strong> "+x[1]+"</p>").join("")+"</div></details>"}
+    function finish(){
+      Timer.pause();resultTime=timerSeconds;audio.pause();$("quizView").classList.add("hidden");$("resultView").classList.remove("hidden");const s=score(),accuracy=Math.round((answers.filter(a=>a&&a.points>0).length/questions.length)*100),attempts=+(localStorage.getItem("quizAttempts")||0)+1,best=Math.max(+(localStorage.getItem("quizBest")||0),s);localStorage.setItem("quizAttempts",attempts);localStorage.setItem("quizBest",best);localStorage.setItem("quizLast",s);localStorage.setItem("quizTime",Timer.format(resultTime));
+      const remark=s<16.5?"Fail":s<19.8?"Pass":s<23.1?"Fairly Good":s<26.4?"Good":s<29.7?"Very Good":"Excellent!";
+      const tasks={};questions.forEach((q,i)=>{if(!tasks[q.taskLabel])tasks[q.taskLabel]=[0,0];tasks[q.taskLabel][0]+=answers[i].points;tasks[q.taskLabel][1]+=q.points});
+      $("resultView").innerHTML="<h1>English2BAC Listening Quiz 1</h1><p>UNIT 2 — EXPRESSING LACK OF UNDERSTANDING & ASKING FOR CLARIFICATION</p><div class='score-badge'>"+s.toFixed(2)+" /33</div><div id='remark' class='remark'>...</div><div class='summary'><div><b>Final Score:</b> "+s.toFixed(2)+" /33</div><div><b>Correct Answers:</b> "+answers.filter(a=>a.points>0).length+"</div><div><b>Wrong Answers:</b> "+answers.filter(a=>a.points===0).length+"</div><div><b>Accuracy:</b> "+accuracy+"%</div><div><b>Time Taken:</b> "+Timer.format(resultTime)+"</div><div><b>Attempts:</b> "+attempts+"</div><div><b>Best Score:</b> "+best.toFixed(2)+" /33</div></div><h2>Task Breakdown</h2><ul class='breakdown'>"+Object.entries(tasks).map(x=>"<li>"+x[0]+": <b>"+x[1][0]+"/"+x[1][1]+"</b></li>").join("")+"</ul>"+transcript()+"<div class='result-actions'><button id='reviewBtn' class='action-button'>Review My Answers</button><button id='printBtn' class='action-button'>Print Results</button><button id='saveBtn' class='action-button'>Save Results</button><button id='restartBtn' class='action-button'>Restart Quiz</button></div>";
+      const slots=["Fail","Pass","Fairly Good","Good","Very Good","Excellent!"];let n=0;const cycle=setInterval(()=>{$("remark").textContent=slots[n++%slots.length]},180);setTimeout(()=>{clearInterval(cycle);$("remark").textContent=remark},3000);if(s>=26.4)confetti();
+      $("reviewBtn").onclick=review;$("restartBtn").onclick=restart;$("printBtn").onclick=()=>window.print();$("saveBtn").onclick=()=>{const blob=new Blob([$("resultView").innerText],{type:"text/plain"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="English2BAC-Quiz-Results.txt";a.click();URL.revokeObjectURL(a.href)}
+    }
+    function confetti(){for(let i=0;i<60;i++){const e=document.createElement("i");e.className="confetti";e.style.left=Math.random()*100+"%";e.style.background=["#2563eb","#15803d","#f59e0b","#dc2626"][i%4];e.style.animationDelay=Math.random()*1.4+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),5000)}}
+    function review(){$("resultView").classList.add("hidden");$("reviewView").classList.remove("hidden");$("reviewView").innerHTML="<div class='card'><button id='backResults' class='action-button'>◀ Results</button><h1>Review My Answers</h1>"+transcript()+questions.map((q,i)=>{const a=answers[i],good=a.points===q.points;let detail="";if(q.type==="single-choice")detail="Student Answer: "+a.data.choice+"<br>Correct Answer: "+q.correctAnswer;else if(q.type==="multi-select-exact")detail="Your selections: "+a.data.selected.join(", ")+"<br>Correct selections: "+q.correctOptions.join(", ");else detail=q.rows.map(([id,text])=>{const got=q.chips.find(c=>c[0]===a.data.placements[id]);const right=q.chips.find(c=>c[2]===id);return text+"<br>Your answer: "+(got?got[1]:"—")+"<br>Correct: "+right[1]}).join("<hr>");return "<article class='review-item'><div class='review-title'>Question "+(i+1)+" · "+q.taskLabel+"</div><h3>"+q.task+"</h3><div class='review-answer "+(good?"correct":"wrong")+"'>"+detail+"</div><div class='explanation'><b>Explanation:</b> "+q.explanation+"</div></article>"}).join("")+"</div>";$("backResults").onclick=()=>{$("reviewView").classList.add("hidden");$("resultView").classList.remove("hidden")}}
+    function restart(){answers=Array(questions.length).fill(null);current=0;audio.pause();audio.currentTime=0;$("audioProgress").style.width="0";Timer.reset();$("resultView").classList.add("hidden");$("reviewView").classList.add("hidden");$("quizView").classList.remove("hidden");Timer.start();render()}
+    $("previousButton").onclick=()=>{if(current>0){current--;render()}};$("nextButton").onclick=()=>{if(!canNext())return;if(current===questions.length-1)finish();else{current++;render()}};
+    document.addEventListener("keydown",e=>{if(document.activeElement.closest?.("#audioPanel"))return;if(e.key==="ArrowLeft")$("previousButton").click();if(e.key==="ArrowRight"&&!$("nextButton").disabled)$("nextButton").click();const n=+e.key;if(n&&n<=6){const btn=[...document.querySelectorAll(".choice,.tile")][n-1];if(btn&&!btn.disabled)btn.click()}if((e.key==="Enter"||e.key===" ")&&document.activeElement===document.body&&!$("nextButton").disabled)$("nextButton").click()});
+    $("audioPanel").addEventListener("keydown",e=>{if(e.key===" "){e.preventDefault();audioToggle()}if(e.key==="ArrowLeft"){e.preventDefault();skipBack()}if(e.key==="ArrowRight"){e.preventDefault();skipForward()}});
+    Timer.start();render();
+  </script>
+ 
+</body></html>
